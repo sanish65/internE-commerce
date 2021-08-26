@@ -1,0 +1,206 @@
+style.
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 14px;
+  }
+  .track-product {
+  background-color: #113311 !important;
+  padding: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  }
+
+  .track-product-bg {
+  background-color: #17cab2 !important;
+  padding: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  }
+
+  .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  }
+  .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  }
+  .slider:before {
+  position: absolute;
+  content: "";
+  height: 7px;
+  width: 10px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  }
+  input:checked + .slider {
+  background-color: #990066;
+  }
+  input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+  }
+  input:checked + .slider:before {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+  }
+  .slider.round {
+  border-radius: 1px;
+  }
+  .slider.round:before {
+  border-radius: 50%;
+  }
+  #issuelist{
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+  }
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    background:#ffccaa;
+    border-radius: 5px;
+    padding: 10px 10px;
+    margin: 30px 20px;
+    width: 60%;
+  }
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .container {
+    padding: 2px 16px;
+  }
+  .card h3 {
+    text-align:center;
+
+  }
+  .container.label{
+    padding: 5px 5px;
+    margin :5px 6px 10px 20px;
+  }
+
+
+.row  
+  table#trackerlist.table.table-striped.table-hover.table-sm
+    thead
+      th product
+      th All_check
+      th Dispatched_from_US
+      th Shipped
+      th Delivered_in_Nepal
+      th Count  
+      th action/submit
+
+    tbody
+      each items,index in item.trackers
+        form(method='POST')
+          input(type='hidden', name='_csrf', value=_csrf)
+          tr
+            td #{items.name}
+            input(type='hidden' name="trackid" value = item.id)
+
+            input(type='hidden' name='name' value = items.name)
+
+            input(type='hidden' name="productid" value = items._id)
+
+            input(type="hidden" name='number' value = index)
+
+            td
+              label.switch
+                input.select-all(type='checkbox' id="sample"+index)
+                span.slider.round
+            td
+              if items.dispatched_us == 'on'
+                label.switch
+                  input(type='checkbox' name='sample1' class="chkbx" id="check"+index checked)
+                  span.slider.round
+
+              else
+                label.switch
+                  input(type='checkbox' name='sample1' class="chkbx" id="check"+index )
+                  span.slider.round
+
+            td
+              if items.shipping == 'on'
+                label.switch
+                  input(type='checkbox' name='sample2' class="chkbx" id="check"+index checked)
+                  span.slider.round
+
+              else
+                label.switch
+                  input(type='checkbox' name='sample2' class="chkbx" id="check"+index )
+                  span.slider.round
+            td
+              if items.delivered_nepal == 'on'
+                label.switch
+                  input(type='checkbox' name='sample3' class="chkbx" id="check"+index checked)
+                  span.slider.round
+
+              else
+                label.switch
+                  input(type='checkbox' name='sample3' class="chkbx" id="check"+index )
+                  span.slider.round
+
+
+            td #{items.count}
+            td 
+              button.btn.btn-primary(type='submit' onclick="mypromptfuncindividual()" )
+                | verify
+
+
+
+    button#select-all.btn.btn-outline-primary Abort/Confirm
+    a.btn.btn-outline-primary(href="/producttracker/trackinglistallverified/"+item.id , onclick="mypromptfunc()") Verify All
+
+  .div(class="card")
+    h3 Stock missing information
+    .div(class="container")
+      form(method='POST' action="/producttracker/trackerissues/"+item.id)
+        .form-group.row
+          .col-md-1
+            label(class="reportname" for="report name" ) name
+          .col-md-4   
+            input(type="text" name="reportname" required)
+        .form-group.row
+          .col-md-1
+            label(class="reportdescription" for="report description") issue
+          .col-md-4     
+            input(type="textarea" name="reportdescription" required)
+        .form-group.row
+          .col-md-3
+            input(type="submit" value="report")
+
+  if item.report.length
+    table#issuelist.table.table-striped.table-hover.table-sm
+      th issue_product
+      th description
+      th date
+      th admin
+
+      tbody
+      each items,index in item.report
+        tr
+          td #{items.issue}
+          td #{items.description}
+          td #{items.date}
+          td #{user.email}
+
+
+
+
+
+

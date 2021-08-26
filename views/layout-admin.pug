@@ -1,0 +1,376 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='csrf-token', content=_csrf)
+    title #{title || 'Xinney'} - Dashboard
+
+    script(src='https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js')
+    script(src='https://code.jquery.com/jquery-3.5.1.js')
+    script(src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js')
+    link(rel='stylesheet' href='https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css')
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css")
+    link(rel="stylesheet" href='/css/dashboard.css')
+
+    link(rel='shortcut icon' href='/xinney_black.png')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js')
+    script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+
+  body
+    div(class="wrapper")
+      include partials/admin-sidebar
+      #body
+        nav(class="navbar navbar-expand-lg navbar-white bg-white")
+          button(type="button" id="sidebarCollapse" class="btn btn-light")
+            i(class="fa fa-bars")
+            span
+          div(class="collapse navbar-collapse" id="navbarSupportedContent")
+            ul(class="nav navbar-nav ml-auto")
+              li(class="nav-item dropdown")
+                div(class="nav-dropdown")
+                  a(href="#" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown")
+                    if user && user.profile.picture
+                      img(src=user.profile.picture, class="img-fluid mr-2" style="width:25px; height: 25px")
+                    else if user
+                      img(src=user.gravatar(60), class="img-fluid mr-2" style="width: 25px")
+                    else
+                      h6 hello
+                    span.pr-2= user.profile.name || user.email || user.id
+                    i(class="fa fa-caret-down" style="font-size:.8em")
+                  div(class="dropdown-menu dropdown-menu-right nav-link-menu")
+                    ul(class="nav-list")
+                      li
+                        a(href="/account" class="dropdown-item")
+                          i(class="fa fa-address-card")
+                          span    Profile
+
+                      div(class="dropdown-divider")
+
+                      li
+                        a(href="#" class="dropdown-item" data-toggle="modal" data-target="#sign-out")
+                          i(class="fa fa-user-shield")
+                          span Logout
+          //- Modal
+          div(class="modal fade" id="sign-out")
+            div(class="modal-dialog")
+              div(class="modal-content")
+                div(class="modal-header")
+                  h4(class="modal-title") Want to leave?
+                  button(type="button" class="close" data-dismiss="modal") &times;
+                div(class="modal-body")
+                  Are you sure you want to logout?
+                div(class="modal-footer")
+                  button(type="button" class="btn btn-primary" data-dismiss="modal") Stay Here
+                  a(href='/logout' class="btn btn-danger") Logout
+
+        .container.mt-2.p-3
+          include partials/flash
+
+        //- Content
+        block content
+
+        .footer.text-center.mt-5
+          p Copyright 2021 Xinney Nepal. All Rights Reserved.
+
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js")
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(src='https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js')
+    script(src='https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js')
+
+    script(src='/js/lib/popper.min.js')
+    script(src='/js/main.js')
+    script(src='/js/script.js')
+
+    script.
+      $(document).ready(function() {
+        let imagesPreview = function(input, placeToInsertImagePreview) {
+          if (input.files) {
+            let filesAmount = input.files.length;
+            for (i = 0; i < filesAmount; i++) {
+              let reader = new FileReader();
+              reader.onload = function(event) {
+                $($.parseHTML("<img height=200 width=200>"))
+                  .attr("src", event.target.result)
+                  .appendTo(placeToInsertImagePreview);
+              };
+              reader.readAsDataURL(input.files[i]);
+            }
+          }
+        };
+        $("#input-multi-files").on("change", function() {
+          imagesPreview(this, "div.preview-images");
+        });
+        $("#input-multi-filessecond").on("change", function() {
+          imagesPreview(this, "div.preview-filessecond");
+        });
+        $("#input-multi-filesthird").on("change", function() {
+          imagesPreview(this, "div.preview-filesthird");
+        });
+      });
+
+      $(function() {
+        $('.searchName').autocomplete({
+          source: function(letters, res) {
+            $.ajax({
+            url: "/purchase/addpurchase/searchinventory",
+            dataType:"jsonp",
+            type:"GET",
+            data: letters,
+            success: function(tests) {
+              res(tests)
+            },
+            error: function(err){
+              console.log("errror"+err.status);
+            }
+          });
+        },
+          minLength: 1,
+
+        });
+
+      });
+
+    script.
+      $(function() {
+        $('#prodname').autocomplete({
+          source: function(letters, res) {
+            $.ajax({
+            url: "/order/editorder/search/searchproductname/",
+            dataType:"jsonp",
+            type:"GET",
+            data: letters,
+            success: function(tests) {
+              res(tests)
+            },
+            error: function(err){
+              console.log("errror"+err.status);
+            }
+          });
+        },
+          minLength: 1,
+
+        });
+      });
+
+      $(function() {
+        $('#prodname').change(() => {
+          var price =  $('#prodname').val();
+          $('#prodprice').val(price);
+        });
+      });
+
+    script.
+      $(function() {
+      $('.searchName').change(function()
+        {
+          var thisId = $(this).attr('id');
+          var index=thisId.charAt(4);
+          var formcount =  $(".formcount").val();
+          for(let i=1;i<=formcount;i++){
+          var str = $('#name'+index).val();
+          if(str.includes(":") && index == i)
+            {
+            var costprice = str.split("/")[1];
+            var wtype = str.split("/")[2];
+            var weight1 = str.split("/")[3];
+            var weight2 = str.split("/")[4];
+            $( "#div"+i+" .mainweight" ).val( weight1 );
+            $( "#div"+i+" .subweight" ).val( weight2 );
+            $( "#div"+i+" .wtype" ).val(wtype).change();
+            }
+            else{
+              continue;
+            }
+
+          }
+
+        })
+      })
+
+  script.
+    function openModal() {
+      document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+    }
+
+    function openModalsecond() {
+      document.getElementById("myModalsecond").style.display = "block";
+    }
+
+    function closeModalsecond() {
+      document.getElementById("myModalsecond").style.display = "none";
+    }
+
+    $(document).ready(function() {
+
+      $('#tracker tr').click(function() {
+        var href = $(this).find("a").attr("href");
+        if (href) {
+          window.location = href;
+        }
+      });
+
+    });
+
+    $(function(){
+      $("#select-all").click(function () {
+        $("input.select-all").each(function(index,all){
+        all.checked = !all.checked
+        var checked = all.checked;
+        $("input.chkbx").each(function (index,item) {
+          item.checked = checked;
+        });
+        });
+      });
+      $("input.select-all").click(function () {
+        var id = this.id.substr(6);
+        console.log("select-all checkbox is clicked");
+        var checked = this.checked;
+        $("input#check"+id).each(function (index,item) {
+          item.checked = checked;
+        });
+      });
+      //check selected items
+      $("input.chkbx").click(function () {
+        var checked = this.checked;
+        var id = this.id.substr(5);
+        var all = $("input.select-all")[id];
+        all.checked = checked;
+        var total = $("input#check"+id).length;
+        var len = $("input#check"+id+":checked:checked").length;
+        all.checked = len===total;
+      });
+    });
+
+    function mypromptfunc(){
+      alert("Are you sure you want to check all?");
+    }
+
+    function mypromptfuncindividual(){
+      alert("Do you want to make changes?");
+    }
+
+    var nme = [];
+    var cnt = [];
+    var coloR = [];
+
+    axios.get("/datavisualize/CountProduct")
+      .then((result) => {
+        var ref = {};
+        for (var i = 0; i < result.data.length; i++) {
+          nme[i] = result.data[i].name;
+          cnt[i] = result.data[i].inventorycount;
+          coloR.push(getRandomColorHex());
+        }
+      })
+      .catch((error) => console.log(error));
+
+    function getRandomColorHex() {
+      var hex = "0123456789ABCDEF",
+        color = "#";
+      for (var i = 1; i <= 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    var myChartContext = document.getElementById("myChart");
+    if (myChartContext) {
+      var myChart = new Chart(myChartContext, {
+        type: 'bar',
+        data: {
+          labels: nme,
+          datasets: [{
+            label: 'Xinney Product Count',
+            data: cnt,
+            backgroundColor: coloR,
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+
+    var myChart2Context = document.getElementById("myChart2");
+    if (myChart2Context) {
+      var myChart = new Chart(myChart2Context, {
+        type: 'line',
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          datasets: [{
+            label: 'Xinney Product Count',
+            data: [65, 59, 80, 81, 56, 55, 40, 90, 100, 60, 55, 30, 78],
+            backgroundColor: '#5a005a'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+
+    function drawPieChart() {
+      var canvas = document.getElementById("pieChart");
+
+      if (canvas) {
+        var ctx = canvas.getContext('2d');
+        Chart.defaults.global.defaultFontColor = 'black';
+        Chart.defaults.global.defaultFontSize = 16;
+
+        var data = {
+          labels: ["Active", "Inactive"],
+          datasets: [{
+            fill: true,
+            backgroundColor: [
+              '#3fd902',
+              '#d773fb'
+            ],
+            data: user.data,
+            borderColor: ['black ', 'black'],
+            borderWidth: [2, 2]
+          }]
+        };
+        var options = {
+          title: {
+            display: true,
+            text: 'User Display',
+            position: 'top'
+          },
+          rotation: -0.7 * Math.PI
+        };
+        var myBarChart = new Chart(ctx, {
+          type: 'pie',
+          data: data,
+          options: options
+        });
+      }
+    }
+
+    $(document).ready(function() {
+      axios.get("/datavisualize/countUser")
+        .then((user) => drawPieChart())
+        .catch((error) => console.log(error));
+      $('#myTable').DataTable();
+    });

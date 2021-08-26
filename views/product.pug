@@ -1,0 +1,342 @@
+extends ./layout
+
+block content
+  //- Product listing main
+  .container
+    br
+    nav(class="breadcrumb")
+      a(href="#" class="breadcrumb-item text-dark") Home
+      a(href="#" class="breadcrumb-item text-dark") Product
+      span(class="breadcrumb-item active") #{info.name}
+    div(class="product-main pb-5 mb-5")
+      div(class="row")
+        div(class="col-lg-5 col-sm-12 my-3")
+          div(class="card border-0")
+            .container
+            #myCarousel.carousel.slide(data-ride='carousel')
+              // Indicators
+              ol.carousel-indicators
+                each pic,index in info.photos 
+                  if index == 0
+                    li.active(data-target='#myCarousel' data-slide-to= index)
+                  else 
+                    li(data-target='#myCarousel' data-slide-to= index)
+
+              // Wrapper for slides
+              .carousel-inner
+                each pic, index in info.photos
+                  if index == 0
+                    .item.active
+                      img(src=pic['path'] alt="Product"+index style='width:100%;')
+                  else 
+                    .item
+                      img(src=pic['path'] alt="Product"+index style='width:100%;')
+              // Left and right controls
+              a.left.carousel-control(href='#myCarousel' data-slide='prev')
+                span.glyphicon.glyphicon-chevron-left
+                span.sr-only Previous
+              a.right.carousel-control(href='#myCarousel' data-slide='next')
+                span.glyphicon.glyphicon-chevron-right
+                span.sr-only Next
+
+        div(class="col-lg-7 col-sm-12 my-3 px-4")
+          div(class="product-description")
+            h3(class="py-3") #{info.name}
+            span(class="text-muted") Status : #{invCount > 0 ? "available" : "sold out"}
+            hr
+            p(class="description text-muted")
+              Lorem #{info.description}
+
+            h6(class="pt-4") Special Features
+            ul(class="list-unstyled pl-4")
+              li #{info.wmain}.#{info.wsub} #{info.wtype == "ltml" ? "Litre/Mili-Litre" : info.wtype == "kggm" ? "KiloGram/Gram" : "Pound/Ounce"}
+              li #{info.brand} brand
+              li #{info.category}
+            hr
+            p Qty:
+            if(invCount > 0)
+              form(action='/order/addtocart' method='POST')
+                input(type='hidden' , name='_csrf', value=_csrf)
+                input(type='hidden' name='id',value=info.id)
+                input(type='hidden' name='sku',value=info.sku)
+                input(type='hidden' name="productname", value=info.name)
+                input(type='hidden' name="description", value=info.description)
+                input(type='hidden' name="photos", value=info.photos[0].path)
+                input(type='hidden' name="caption", value=info.caption)
+                input(type='hidden' name="productprice", value=info.price)
+
+                h5 #{info.name}
+                h4(class="card-text" style='color:red;font-weight:bold') Rs. #{info.price}
+                h6 Quantity:
+                  input(class="quantity" min="1",max=invCount ,name="quantity" ,id='quantity' value="1" type='number' style='width:25%')
+                button(class="btn btn-md btn-block" style='background-color:#ff0090;color:white;' type='submit') Add to cart
+
+            else
+              form(action='/order/booknow' method='POST')
+                input(type='hidden' , name='_csrf', value=_csrf)
+
+                input(type='hidden' name='id',value=info.id)
+                input(type='hidden' name='sku',value=info.sku)
+                input(type='hidden' name="productname", value=info.name)
+                input(type='hidden' name="description", value=info.description)
+                input(type='hidden' name="photos", value=info.photos)
+                input(type='hidden' name="caption", value=info.caption)
+                input(type='hidden' name="productprice", value=info.price)
+
+                h4(align='center' style='color:red;') Out of Stock
+                h5 #{info.name}
+                h4(class="card-text" style='color:red;font-weight:bold') Rs. #{info.price}
+                h6 Quantity:
+                  input(class="quantity" min="1" ,name="quantity" ,id='quantity' value="1" type='number' style='width:25%')
+                div( class='row mt-5')
+                  div(class='col-lg-4')
+                    button(class="btn btn-md btn-block" style='background-color:#ff0090;color:white;' type='submit') Book Now
+
+            p(class="text-muted mt-5") Category:
+              span(class="text-dark") #{info.featuretype == "most-selled" ? "Best-Seller" : info.featuretype == "feature" ? "Featured" : "Commodity"}
+    p More images
+    each pic, index in info.photos
+      img.hover-shadow.cursor(src=pic['path'], alt= info.caption style="width:20%" onclick="openModal();currentSlide(" +(index+1)+" )")
+
+    #myModalx.modalx
+      span.closex.cursor(onclick="closeModal()") X
+      .modalx-content
+        each pic, index in info.photos
+          .mySlides
+            .numbertext #{index+1}/#{info.photos.length} #{info.caption}
+            img(src=pic['path'] style="width:100%")
+
+        a.prev(onclick="plusSlides(-1)") ❮
+        a.next(onclick="plusSlides(1)") ❯
+        .caption-container
+          p#caption
+        each pic , index in info.photos
+          .column
+            img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=info.caption)
+
+
+  //- Description
+  div(class="container")
+    div(class="product-info mt-5")
+      div(class="row text-left")
+        div(class="col-lg-4 col-sm-12 my-3 heading-info")
+          ul(class="list-unstyled ml-3 border-right border-dark")
+            li(class="text-uppercase text-main pt-3") Price
+            li(class="text-uppercase pt-3") Rate This Product
+            li(class="text-uppercase pt-3") Products Sold
+        div(class="col-lg-8 col-sm-12 my-3")
+          ul(class="list-unstyled ml-3 border-right border-dark")
+            li(class="text-uppercase text-main pt-3") #{info.price}
+            li(class="text-uppercase pt-3")
+              form(method="post" id="ratestarsproduct" onchange="rateMe()" action="/homepage/rateStarsProduct/"+info._id)
+                .rate
+                  if rated_stars == 5
+                    input#star5(type='radio' name='rate' value='5' checked)
+                  else
+                    input#star5(type='radio' name='rate' value='5')
+                  label(for='star5' title='text') 5 stars
+                  if rated_stars == 4
+                    input#star4(type='radio' name='rate' value='4' checked)
+                  else
+                    input#star4(type='radio' name='rate' value='4')
+                  label(for='star4' title='text') 4 stars
+                  if rated_stars == 3
+                    input#star3(type='radio' name='rate' value='3' checked)
+                  else
+                    input#star3(type='radio' name='rate' value='3')
+                  label(for='star3' title='text') 3 stars
+                  if rated_stars == 2
+                    input#star2(type='radio' name='rate' value='2' checked)
+                  else
+                    input#star2(type='radio' name='rate' value='2')
+                  label(for='star2' title='text') 2 stars
+                  if rated_stars == 1
+                    input#star1(type='radio' name='rate' value='1' checked)
+                  else
+                    input#star1(type='radio' name='rate' value='1')
+                  label(for='star1' title='text') 1 star
+
+            li(class="text-uppercase pt-3")
+
+  //make a  feedbackBacks
+
+
+
+  //listing comments
+  div(class="container")
+    div(class="product-main pb-5 mb-5")
+      span(class="h6 text-uppercase") We would like to hear you about #{info.name}
+
+      div(class="row")
+        div(class="col-lg-4 col-sm-6 my-3")
+          div(class="card border-0")
+            form( method="post" action="/homepage/reviewproduct/"+info._id class="unlisted-site mt-4")
+              div(class="form-group")
+                div(class="row")
+                  div(class="col-sm-3 col-12 text-lg-right")
+                    label(for="link") Make a review
+                  div(class="h6 col-sm-7 col-12")
+                    textarea(placeholder="Enter text here..." class="form-control" name="comments" id="comments" )
+
+                div(class="row")
+                  div(class="col-12 col-sm-3")
+                  div(class="col-12 col-sm-9")
+                    button(class="btn btn-main py-2 px-3 mt-2" type="submit") Submit
+
+        div(class="col-lg-7 col-sm-12 my-3 px-4 example")
+          div(class="comment-description")
+            div(class="card-footer bg-transparent border-0 product-info")
+              if info.comments.length
+                each comments , index in info.comments
+                  h6(class="card-title date") #{comments.comment}
+                  p  By:#{comments.name}
+                  h6 on:#{comments.date}
+                  hr
+              else
+                h6 No reviews yet
+  //- May like
+  div(class="may-like pt-5")
+    div(class="container")
+      span(class="h5 text-uppercase") You may also like
+
+      div(class="row")
+        each product,index in prods
+          if product.name != prod_id
+            if index < 3
+              each pic,index in product.photos
+                if index == 0
+                  div(class="col-lg-4 col-sm-6 my-3")
+                    div(class="card border-0")
+                      img(src=pic['path'] alt="Product"+index+1 class="card-img product-img u-rounded-border")
+                      div(class="card-img-overlay rating")
+                        - var rated_stars = 0
+                        if product.review.length
+                          each review , index in product.review
+                            - rated_stars += review.rate
+                          -rated_stars /= (product.review.length)
+                        else
+                          - rated_stars = 0
+
+                        if Math.ceil(rated_stars) == 5
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                        if Math.ceil(rated_stars) == 4
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 3
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 2
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 1
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 0
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+
+                      div(class="card-footer bg-transparent border-0 product-info")
+                        h5(class="card-title product-name") #{product.name}
+                        span(class="card-text product-amount") Rs.#{product.price}
+
+                      div(class="info")
+                        div(class="links")
+                          a(href="/product")
+                            i(class="fa fa-cart-plus")
+                            //- a(href="/homepage/"+id)
+                            //-     i(class="fa fa-star")
+                            a(href="/homepage/product/"+product._id)
+                              i(class="fa fa-eye")
+
+  script.
+    function rateMe() {
+      document.getElementById('ratestarsproduct').submit();
+      return false;
+    }
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    function openModal() {
+      document.getElementById("myModalx").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("myModalx").style.display = "none";
+    }
+
+    function openModalsecond() {
+      document.getElementById("myModalsecond").style.display = "block";
+    }
+
+    function closeModalsecond() {
+      document.getElementById("myModalsecond").style.display = "none";
+    }
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("demo");
+      var captionText = document.getElementById("caption");
+      if (n > slides.length) {
+        slideIndex = 1
+      }
+      if (n < 1) {
+        slideIndex = slides.length
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      captionText.innerHTML = dots[slideIndex - 1].alt;
+    }

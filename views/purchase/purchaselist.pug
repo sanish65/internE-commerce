@@ -1,0 +1,40 @@
+extends ../layout-admin
+
+block content
+  div(class="content")
+    div(class="container")
+      div(class="page-title")
+        h3 Purchase
+      div(class="row")
+        div(class="col-md-12 col-lg-12")
+          div(class="card")
+            div(class="card-header h5") Purchase List
+            div(class="card-body")
+              div(class="row")
+                div(class="col-sm-12 col-md-6")
+
+
+              div(class="table-responsive")
+                table(class="table table-striped" id="myTable")
+                  thead(class="thead-dark")
+                    tr
+                      th(scope='col') Date
+                      th(scope='col') Source
+                      th(scope='col') Purchaser
+                      th(scope='col') Bill_id
+                      th(scope='col') Payment
+                      th(scope='col') Amt
+                      th(scope='col') No#
+                      th(scope='col')
+                  tbody
+                    for item in items
+                      tr
+                        td #{item.date}
+                        td #{item.source}
+                        td #{item.purchaser}
+                        td #{item.bill_id}
+                        td #{item.payment}
+                        td #{item.totalamt}
+                        td #{item.productcount}
+                        td
+                          a.btn.btn-outline-primary(href="/purchase/purchaselist/"+item._id) Edit

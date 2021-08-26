@@ -1,0 +1,150 @@
+extends ../layout-admin
+
+block content
+  link(rel='stylesheet', href='/css/images.css')
+  div(class="container")
+        div(class="page-title")
+            h3.page-header Category
+        div(class="row")
+            div(class="col-lg-12")
+                div(class="card")
+                    div(class="card-header h5") Edit #{display_categories.name} 
+                    div(class="card-body")
+
+
+                      form(method = 'POST', enctype='multipart/form-data')  
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='name') Name
+                          .col-md-4
+                            input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus=true, value=display_categories.name)
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='slug') slug
+                          .col-md-4
+                            input.form-control(type='text', name='slug', id='slug', autocomplete='slug', autofocus=true, value=display_categories.slug)
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='shortdesc') Short Description
+                          .col-md-8
+                            textarea.form-control(name='shortdesc', id='shortdesc', autocomplete='shortdesc', autofocus=true) #{display_categories.shortdesc}
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='description') Description
+                          .col-md-8
+                            textarea.form-control(name='description', id='description', autocomplete='description', autofocus=true) #{display_categories.description}
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='description') Category
+                          - catgs = display_categories.default
+                          - id_names = display_categories.idnames
+                          - checker = display_categories.checker
+                          include ../partials/categoryprint                                                       
+                        //- .form-group.row
+                        //-   .col-md-1
+                        //-     label(class='col-form-label font-weight-bold', for='pimage') Image
+                        //-   .col-md-4
+                        //-     input#input-multi-files.form-control-file.border(type='file', name='multi-files', multiple='')
+                        //-     input.form-control(type="text",name="caption", placeholder="caption e.g xinney display_categories" value=display_categories.caption)
+                        //- .form-group.row
+                        //-   .col-sm-12
+                        //-     label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                        //-       .preview-images
+
+
+                        //- .form-group.row
+                        //-   each pic, index in display_categories.photos 
+                        //-     .column(style="text-align:center")
+                        //-       img.hover-shadow.cursor(src=pic['path'], alt= display_categories.caption style="width:100%" onclick="openModal();currentSlide(" +(index+1)+" )")
+
+                        //- #myModal.modal
+                        //-   span.close.cursor(onclick="closeModal()") ×
+                        //-   .modal-content
+                        //-     each pic, index in display_categories.photos
+                        //-       .mySlides
+                        //-         .numbertext #{index+1}/#{display_categories.photos.length} #{display_categories.caption}
+                        //-         img(src=pic['path'] style="width:100%")
+
+                        //-     a.prev(onclick="plusSlides(-1)") ❮
+                        //-     a.next(onclick="plusSlides(1)") ❯
+                        //-     .caption-container
+                        //-       p#caption
+                        //-     each pic , index in display_categories.photos
+                        //-       .column
+                        //-         img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=display_categories.caption)
+
+
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='pimage') Banner
+                          .col-md-4
+                            input#input-multi-files.form-control-file.border(type='file', name='multi-files' )
+                            input.form-control(type="text",name="caption", placeholder="caption e.g xinney display_categories" value=display_categories.caption)
+                        .form-group.row
+                          .col-sm-12
+                            label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                              .preview-images
+
+
+                        .form-group.row
+                          each pic, index in display_categories.banner 
+                            .column(style="text-align:center")
+                              img.hover-shadow.cursor(src=pic['path'], alt= display_categories.caption style="width:100%" onclick="openModal();currentSlide("+(index+1)+")")
+
+                        #myModal.modal
+                          span.close.cursor(onclick="closeModal()") ×
+                          .modal-content
+                            each pic, index in display_categories.banner
+                              .mySlides
+                                .numbertext #{index+1}/#{display_categories.banner.length} #{display_categories.caption}
+                                img(src=pic['path'] style="width:100%")
+
+                            a.prev(onclick="plusSlides(-1)") ❮
+                            a.next(onclick="plusSlides(1)") ❯
+                            .caption-container
+                              p#caption
+                            each pic , index in display_categories.banner
+                              .column
+                                img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=display_categories.caption)
+
+                        .form-group.row
+                          .col-md-2
+                            label(class='col-form-label font-weight-bold', for='pimage') Thumbnail
+                          .col-md-4
+                            input#input-multi-filessecond.form-control-file.border(type='file', name='multi-files' )
+                            input.form-control(type="text",name="caption1", placeholder="caption e.g xinney display_categories" value=display_categories.caption1 || '')
+                        .form-group.row
+                          .col-sm-12
+                            label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                              .preview-filessecond
+
+
+                        .form-group.row
+                          each pic, index in display_categories.thumbnail 
+                            .column(style="text-align:center")
+                              img.hover-shadow.cursor(src=pic['path'], alt= display_categories.caption1 style="width:100%" onclick="openModalsecond();currentSlide(" +(index+1)+")")
+
+                        #myModalsecond.modal
+                          span.close.cursor(onclick="closeModalsecond()") ×
+                          .modal-content
+                            each pic, index in display_categories.thumbnail
+                              .mySlides
+                                .numbertext #{index+1}/#{display_categories.thumbnail.length} #{display_categories.caption1}
+                                img(src=pic['path'] style="width:100%")
+
+                            a.prev(onclick="plusSlides(-1)") ❮
+                            a.next(onclick="plusSlides(1)") ❯
+                            .caption-container
+                              p#caption
+                            each pic , index in display_categories.thumbnail
+                              .column
+                                img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=display_categories.caption1)
+                        hr
+                        .form-group
+                          .col-md-10.offset-md-2
+                            button.btn.btn-primary(type='submit')
+                              | Edit Category
+
+
+
+

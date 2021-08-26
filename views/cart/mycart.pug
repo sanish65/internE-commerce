@@ -1,0 +1,74 @@
+include ../partials/headermain
+
+block content
+  .container.main-part.main-content
+    div(class="heading-section")
+      h2(class="text-center p-3") My Cart
+      hr
+    .row
+      .col.text-center.text-uppercase
+        .row
+          //- single column
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase products
+          //- single column
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase name of product
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase price
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase quantity
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase total
+          .col-10.mx-auto.col-md-2
+            h5.text-uppercase action
+    for item in cartItems
+      hr
+      if(item.totalquantity > 0)
+        .row.my-3.align-items-center.text-center
+          .col-10.mx-auto.col-md-2
+            img(src=item.photos alt=item.caption class="img-fluid")
+          .col-10.mx-auto.col-md-2
+            h5.product-name #{item.productname}
+          .col-10.mx-auto.col-md-2
+            h5 Rs. #{item.price}
+          .col-10.mx-auto.col-md-2
+            input(class="quantity" min="1",max=item.totalquantity ,name="quantity" ,id='quantity', value=item.quantity type="number")
+          .col-10.mx-auto.col-md-2
+            h5.product-name Rs. #{item.totalprice}
+          .col-10.mx-auto.col-md-2
+            .row
+              .col
+                form(action='/order/removecart/'+item._id, method='POST' onsubmit="return confirm('Are you sure you want to remove item from your cart?');")
+                  input(type='hidden' name='_csrf', value=_csrf)
+                  button(class="btn btn-sm p-lg-2 my-1" style='background-color:#808080;color:white;' type='submit') Remove cart
+              .col
+                form(action='/order/buylater/'+item._id, method='POST' onsubmit="return confirm('Are you sure you don't want to purchase the product now?');")
+                  input(type='hidden' name='_csrf', value=_csrf)
+                  button(class="btn btn-sm p-lg-2 my-1" style='background-color:#ff0090;color:white;' type='submit') Buy Later
+      else
+        h3(class="card-text" style='color:red;font-weight:bold;margin-top:13px;' align='center') Out of Stock
+        .row(style='padding:15px;')
+          .col-5
+            img(src=item.photos alt=item.caption style='width:70%;height:100%;opacity:0.5')
+          .col-6(style='margin-top:10px;')
+            h3(style='opacity:0.5') #{item.productname}
+            h6(class="card-text" align='center' style='opacity:0.5') Rs. #{item.price}
+            h6(class="card-text" align='center' style='color:red;') You will be booking this product if you decide to buy now. You will receive the product as soon as it is restocked.
+            .row
+              .col
+                form(action='/order/removecart/'+item._id, method='POST' onsubmit="return confirm('Are you sure you want to remove item from your cart?');")
+                  input(type='hidden' name='_csrf', value=_csrf)
+                  button(class="btn btn-md btn-block" style='background-color:#808080;color:white;' type='submit') Remove cart
+              .col
+                form(action='/order/buylater/'+item._id, method='POST' onsubmit="return confirm('Are you sure you don't want to purchase the product now?');")
+                  input(type='hidden' name='_csrf', value=_csrf)
+                  button(class="btn btn-md btn-block" style='background-color:#ff0090;color:white;' type='submit') Buy Later
+    hr
+
+    if cartItems.length > 0
+      form(action='/order/buynow' method='POST' class='mb-5')
+        input(type='hidden' name='_csrf', value=_csrf)
+        button(class="btn btn-main my-4" style='background-color:#ff0090;color:white;' type='submit') Buy Now
+
+include ../partials/footer

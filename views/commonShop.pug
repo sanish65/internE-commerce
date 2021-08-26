@@ -1,0 +1,107 @@
+include partials/headermain
+
+//- main
+main.main-content
+  div(class="category mt-5")
+    div(class="heading-section")
+      div(class="container")
+        if catName
+          h2(class="text-center p-3")  #{catName} Products
+        else
+          h2(class="text-center p-3")  #{info.length != 0 ? info[0].featuretype == "most-selled" ? "Best-Seller" : info[0].featuretype == "feature" ? "Featured" : "All Products" :"No Products to view yet"}
+
+        nav(class="breadcrumb")
+          a(href="#" class="breadcrumb-item text-dark") Home
+          span(class="breadcrumb-item active") #{info.length != 0 ? info[0].featuretype == "most-selled" ? "Best-Seller" : info[0].featuretype == "feature" ? "Featured" : "All Products" :"products"}
+  //- Category main
+  div(class="category-main")
+    div(class="container")
+      div(class="row")
+        div(class="col-lg-2 col-sm-12 my-3")
+          div(class="categories")
+            span(class="h5 text-uppercase text-main") Categories
+            ul(class="list-unstyled mt-3")
+              li 
+                a(href="/homepage/bestseller" class="text-dark") Besteller
+              li(class="pt-2") 
+                a(href="/homepage/featured"  class="text-dark") Featured
+
+          div(class="price mt-5")
+            span(class="h5 text-uppercase text-main") Filter By Price
+            ul(class="list-unstyled mt-3")
+              div(id="rangevalue") Rs.100-20000
+              input(type="range" name="pricerange" id="pricerange" min = 100 max = 20000 autocomplete=''  onchange="checkvalue()")
+              div(id="checkdiv")
+
+          div(class="brand mt-5")
+            span(class="h5 text-uppercase text-main") Brand
+            ul(class="list-unstyled mt-3")
+              each brand in brands
+                li #{brand.name}
+
+        div(class="col-lg-10 col-sm-12 my-3")
+          div(class="container")
+            div(class="row")
+              div(class="col-lg-4 col-sm-6")
+                p(class="items") 
+                //- Item 1 to 6 of 18 items
+              div(class="col-lg-4 col-sm-6")
+                //- p Show <input type="number" name="count" id="count" class="count-input ml-2 pl-2" value="6" min="1"> per page
+              div(class="col-lg-4 col-sm-6")
+                div(class="sort-by float-right")
+                  form(action="/homepage/categoryOptions/options" method="POST" id="checkoptions") 
+                      label(for="category") Sort by:
+                      select(name="category" id="category" class="btn-dropdown ml-2" onchange="checkOptions()")
+                       option(value="allproducts") All Products
+                       for category in categoryOptions
+                          if category === Category
+                            option(value=category selected) #{category}
+                          else 
+                            option(value=category) #{category}
+
+            include partDiv
+
+//- Footer
+include partials/footer
+
+script.
+  function checkvalue() {
+    var value = document.getElementById('pricerange').value;
+    var cnt =  document.getElementById("getInfo").childElementCount
+    rangevalue.innerHTML = value;
+    //- checkdiv.innerHTML = cnt;
+  }
+
+script.
+  function checkOptions() {
+    document.getElementById('checkoptions').submit(); return false;
+    }
+
+script.
+    var title = "Using ProductName"; //Get the title
+    var className = title.split(" ").join("-").toLowerCase(); //Convert it to the correct class which matches with your Divs in the menu
+    document.querySelector(".menu-div").style.display = "none";  //Set all menu divs to hidden
+    document.querySelector("." + className).style.display = "block";  //Show the desired menu div
+
+//- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+script. 
+  $(document).ready(function(){
+    $("#pricerange").on("change", function() {
+      console.log("Is it running");
+      var value = parseInt($(this).val(),10);
+      var checkid = $(".getInfo .informationCard").length;
+      console.log(checkid);
+      for(var i = 0 ; i < checkid ;i++){
+        $("#getInfo #informationCard"+i).filter(function() {
+        var checking = parseInt($("#getInfo #informationCard"+i+" #price").text(),10);
+        if (checking <= value)
+            {
+              $(this).show();
+            }
+        else{
+              $(this).hide();
+        }
+    });
+    }
+    });
+  });

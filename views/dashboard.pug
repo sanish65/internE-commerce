@@ -1,0 +1,91 @@
+extends layout-admin
+
+block content
+  if usertype == 'moderator'
+    h1 #{usertype}
+
+  else if usertype == 'admin' || usertype == 'investor'
+    div(class="content")
+      div(class="container-fluid")
+        div(class="row")
+          div(class="col-md-12 page-header")
+            h2(class="page-title") Dashboard
+
+        div(class="row")
+          div(class="col mt-3")
+            div(class="card")
+              div(class="content")
+                div(class="row")
+                  div(class="col-sm-4")
+                    div(class="icon-big text-center")
+                      i(class="fa fa-shopping-cart teal")
+                  div(class="col-sm-8")
+                    div(class="detail")
+                      p(class="detail-subtitle") Delivered Order
+                      span(class="number") #{count[0]}
+                div(class="footer")
+                  hr
+                  div(class="stats")
+                    button(class="btn btn-outline-success" )
+                      a(href='/order/delivered')  Check Delivered Orders
+
+          div(class="col mt-3")
+            div(class="card")
+              div(class="content")
+                div(class="row")
+                  div(class="col-sm-4")
+                    div(class="icon-big text-center")
+                      i(class="fa fa-money-bill-alt olive")
+                  div(class="col-sm-8")
+                    div(class="detail")
+                      p(class="detail-subtitle") Cancelled Order
+                      span(class="number") #{count[1]}
+                div(class="footer")
+                  hr
+                  div(class="stats")
+                    button(class="btn btn-outline-danger" )
+                      a(href='/order/cancelled' ) Check Cancelled Orders
+
+          div(class="col mt-3")
+            div(class="card")
+              div(class="content")
+                div(class="row")
+                  div(class="col-sm-4")
+                    div(class="icon-big text-center")
+                      i(class="fa fa-eye violet")
+                  div(class="col-sm-8")
+                    div(class="detail")
+                      p(class="detail-subtitle") Pending Order
+                      span(class="number") #{count[2]}
+                div(class="footer")
+                  hr
+                  div(class="stats")
+                    button(class="btn btn-outline-warning" )
+                      a(href='/order/pending')  Check Pending Orders
+
+    .container-fluid
+      .row
+        .col-lg-6
+          .card
+            .card-body
+              canvas#myChart(width='300' height='150')
+
+        .col-lg-6
+          .card
+            .card-body
+              canvas#myChart2(width='300' height='150')
+
+    .container-fluid
+      .row
+        .col-md-6
+          .card
+            canvas#pieChart
+            p some text
+        .col-md-6
+
+  else if usertype == 'guest' || usertype == 'customer'
+    div
+      h1 Welcome to Xinney - customer dashboard
+
+
+

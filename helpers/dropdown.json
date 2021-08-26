@@ -1,0 +1,70 @@
+{
+  "weight_type": [
+    { "lboz": "Lb/oz" },
+    { "kggm": "Kg/gm" },
+    { "ltml": "Litre/ml" }
+  ],
+
+  "product_location": [
+    { "ordered": "Ordered" },
+    { "us": "Delivered in US" },
+    { "nepal": "Delivered in Nepal" }
+  ],
+
+  "purchase_type": [
+    { "product": "Product" },
+    { "subston": "Subscription" },
+    { "misc": "Miscellanous" }
+  ],
+
+	"purchase_method" : [
+		{ "cash" : "Cash Payment" },
+		{ "aciti" : "Amit Citibank Credit" },
+		{ "adiscover"   : "Amit Discover Credit" }
+  ],
+  
+	"payment_method" : [
+		{ "cash" : "Cash On Delivery"},
+		{ "esewa" : "Esewa" },
+    { "khalti" : "Khalti"},
+		{ "bankDeposit" : "Bank Deposit" },
+		{ "moneyTransfer" : "Money Transfer" }
+	],
+
+	"deliv_status": [
+		{"ordered" : "Ordered"},
+		{"purchased" : "Purchased"},
+		{"deliveredUS" : "Delivered in US"},
+		{"deliveredKtm" : "Delivered in KTM"},
+		{"shippedUS" : "Shipped from US"},
+		{"shippedKtm" : "Shipped from Ktm"},
+		{"delivered" : "Delivered"},
+		{"cancelled" : "Cancelled"}
+	],
+
+	"usertype" : [
+		{"admin" : "Admin"},
+		{"customer" : "Customer"},
+		{"investor" : "Investor"},
+		{"moderator" : "Moderator"}
+  ],
+  
+  "channel_status": [
+    { "ordered": "Purchase ordered" },
+    { "purchased": "Purchased" },
+    { "Delivered_in_KTM": "Delivered in Kathmandu" },
+    { "Delivered_in_US": "Delivered in US" },
+    { "delivered": "Purchase delivered" },
+    { "Nepal": "Delivered in Nepal" },
+    { "US": "Delivered in United States" }
+  ],
+  "product_type": [
+    { "inventory": "Inventory" },
+    { "Pre-purchase": "Pre-Ordered" }
+  ],
+  "feature_type":[
+    {"feature":"featured"},
+    {"most-selled":"best-seller"},
+    {"promoted":"promoted"}
+  ]
+}

@@ -1,0 +1,118 @@
+.navbar.navbar-light.fixed-top.navbar-expand-lg
+  .container
+    a.navbar-brand(href='/')
+      img.imglogo(src="../../logo.png" alt="Xinney Logo")
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+      span.sr-only Toggle navigation
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav.navmargins
+        if (!user || (user && user.usertype === 'customer') || (user && user.usertype === 'admin'))
+          li.nav-item(class=(title === 'Order Form') ? 'active' : undefined)
+            a.nav-link(href='/order/orderform') Order Form
+          li.nav-item(class=(title === 'Products') ? 'active' : undefined)
+            //- a.nav-link(href='/products')  PrismCart
+        if (user && user.usertype === 'admin')
+          li.nav-item(class=(title === 'Search Address') ? 'active' : undefined)
+            a.nav-link(href='/order/searchcustomer') Search
+
+
+      ul.nav.navbar-nav.ml-auto
+        if !user
+          li.nav-item(class=(title === 'My cart') ? 'active' : undefined)
+            a.nav-link(href='/order/mycart')  My cart
+          li.nav-item(class=(title === 'Login') ? 'active' : undefined)
+            a.nav-link(href='/login')  Login
+          li.nav-item(class=(title === 'Create Account') ? 'active' : undefined)
+            a.nav-link(href='/signup/customer')  Sign up
+        else
+          if (user.usertype === 'admin' || user.usertype === 'investor')
+            li.dropdown(class=(title === 'Order Management') ? 'active' : undefined).nav-item
+              a.dropdown-toggle.nav-link(href='#' data-toggle='dropdown')  Orders
+              ul.dropdown-menu
+                li.dropdown-item
+                  a(href='/order/list') All
+                li.dropdown-item
+                  a(href='/order/pending') Ordered
+                li.dropdown-item
+                  a(href='/order/delivered') Delivered
+                li.dropdown-item
+                  a(href='/order/cancelled') Cancelled
+
+            //- li.dropdown(class=(title === 'Product Tracking') ? 'active' : undefined).nav-item
+            //-   a.dropdown-toggle.nav-link(href='#' , data-toggle = 'dropdown') Tracking
+            //-   ul.dropdown-menu
+            //-     li.dropdown-item
+            //-       a(href='/producttracker/trackinglist') Product Tracker
+
+          li.nav-item(class=(title === 'Product List') ? 'active' : undefined)
+          //-   a.nav-link(href='/product/productlist') Product List
+          //- li.nav-item(class=(title === 'Add Product') ? 'active' : undefined)
+          //-   a.nav-link(href='/product/addproduct') Add Product
+          if (user.usertype === 'admin' || user.usertype === 'moderator')
+            li.dropdown(class=(title === 'Brand and Category Management') ? 'active' : undefined).nav-item
+              a.dropdown-toggle.nav-link(href='#' data-toggle='dropdown')  Brand&Category
+              ul.dropdown-menu
+                li.dropdown-item
+                  a(href='/brandandcategory/addbrand') Add Brand
+                li.dropdown-item
+                  a(href='/brandandcategory/brandlist') List Brand
+                li.divider.dropdown-item
+                li.dropdown-item
+                  a(href='/brandandcategory/addcategory') Add Category
+                li.dropdown-item
+                  a(href='/brandandcategory/categorylist') List Category
+          if (user.usertype === 'admin' || user.usertype === 'moderator')
+            li.dropdown(class=(title === 'Order Managem') ? 'active' : undefined).nav-item
+              a.dropdown-toggle.nav-link(href='#' data-toggle='dropdown')  Product
+              ul.dropdown-menu
+                li.dropdown-item
+                  a(href='/purchase/addinventory') Add Inventory
+                li.divider.dropdown-item
+                li.dropdown-item
+                  a(href='/purchase/productlist') List Inventory
+                li.divider.dropdown-item
+                li.dropdown-item
+                  a(href='/producttracker/trackinglist') Product Tracker
+
+            li.dropdown(class=(title === 'Purchase Management') ? 'active' : undefined).nav-item
+              a.dropdown-toggle.nav-link(href='#' ,data-toggle='dropdown') Purchase
+              ul.dropdown-menu
+                li.dropdown-item
+                  a(href='/purchase/addpurchase') Add Purchase
+                li.divider.dropdown-item
+                li.dropdown-item
+                  a(href='/purchase/purchaselist') Purchase List
+
+            li.nav-item(class=(title === 'calculator') ? 'active' : undefined)
+              a.nav-link(href='/inventory/calculator') Calculator
+
+          if (user.usertype === 'customer')
+            li.nav-item(class=(title === 'My order') ? 'active' : undefined)
+              a.nav-link(href='/order/myorder')  My orders
+            li.nav-item(class=(title === 'My cart') ? 'active' : undefined)
+              a.nav-link(href='/order/mycart')  My cart
+          //- li.nav-item(class=(title === 'Create Account') ? 'active' : undefined)
+          //-   a.nav-link(href='/signup') Create Account
+          if (user.usertype === 'admin')
+            li.dropdown(class=(title === 'User Management') ? 'active' : undefined).nav-item
+              a.dropdown-toggle.nav-link(href='#' data-toggle='dropdown')  Users
+              ul.dropdown-menu
+                li.dropdown-item
+                  a(href='/userlist') All
+                li.dropdown-item
+                  a(href='/createuser') Create user
+          li.dropdown(class=(title === 'Account Management') ? 'active' : undefined).nav-item
+            a.dropdown-toggle.nav-link(href='#' data-toggle='dropdown')
+              if user.profile.picture
+                img(src=user.profile.picture)
+              else
+                img(src=user.gravatar(60))
+              span= user.profile.name || user.email || user.id
+              i.caret
+            ul.dropdown-menu
+              li.dropdown-item
+                a(href='/account') My Account
+              li.divider.dropdown-item
+              li.dropdown-item
+                a(href='/logout') Logout

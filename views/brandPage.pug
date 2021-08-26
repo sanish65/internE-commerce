@@ -1,0 +1,211 @@
+include partials/headermain
+
+//- Main section
+main
+  div(class="category mt-5")
+    div(class="heading-section")
+      div(class="container")
+        h2(class="text-center p-3") Our Brand
+
+        nav(class="breadcrumb")
+          a(href="#" class="breadcrumb-item text-dark") Home
+          a(href="#" class="breadcrumb-item text-dark") #{info.name}
+          - var prod_id = info.name
+          span(class="breadcrumb-item active") #{info.name}
+  //- Product listing main
+  div(class="container")
+    div(class="brand-img pb-5 mb-5")
+      div(class="row")
+        div(class="col-lg-5 col-sm-12 my-3")
+          div(class="card border-0")
+            each pic,index in info.thumbnail
+              if index == 0
+                img(src=pic['path'] alt="Product 1" class="card-img border u-rounded-border")
+
+        div(class="col-lg-7 col-sm-12 my-3 px-4")
+          div(class="product-description")
+            h3(class="py-3") #{info.name}
+            //- span(class="text-muted") #{info.inventory[0].count > 0 ? "available" : "sold out"}
+            p(class="description text-muted")
+              Lorem Authentic From #{info.country}
+
+            h6(class="pt-4") Sub-info
+            ul(class="list-unstyled pl-4")
+              //- li #{info.color} in color
+              li #{info.shortdesc}
+              li #{info.description}
+
+            p(class="text-muted mt-5") Offical Website:
+              span(class="text-dark")
+                a(href=info.website) Visit
+
+
+
+
+  //- Description
+  div(class="container")
+    div(class="product-info mt-5")
+      div(class="row text-left")
+        div(class="col-lg-4 col-sm-12 my-3 heading-info")
+          ul(class="list-unstyled ml-3 border-right border-dark")
+            li(class="text-uppercase text-main pt-3") Description
+            li(class="text-uppercase pt-3") Rate this brand
+            li(class="text-uppercase pt-3") Review
+        div(class="col-lg-8 col-sm-12 my-3")
+          ul(class="list-unstyled ml-3 border-right border-dark")
+            li(class="text-uppercase text-main pt-3") #{info.type === "inventory" ? "Make A Direct Order From This Brand" : "Book Now to Pre-Order"}
+            li(class="text-uppercase pt-3")
+              form(method="post" id="ratestars" onchange="rateMe()" action="/homepage/rateStars/"+info._id)
+                .rate
+                  if rated_stars == 5
+                    input#star5(type='radio' name='rate' value='5' checked)
+                  else
+                    input#star5(type='radio' name='rate' value='5')
+                  label(for='star5' title='text') 5 stars
+                  if rated_stars == 4
+                    input#star4(type='radio' name='rate' value='4' checked)
+                  else
+                    input#star4(type='radio' name='rate' value='4')
+                  label(for='star4' title='text') 4 stars
+                  if rated_stars == 3
+                    input#star3(type='radio' name='rate' value='3' checked)
+                  else
+                    input#star3(type='radio' name='rate' value='3')
+                  label(for='star3' title='text') 3 stars
+                  if rated_stars == 2
+                    input#star2(type='radio' name='rate' value='2' checked)
+                  else
+                    input#star2(type='radio' name='rate' value='2')
+                  label(for='star2' title='text') 2 stars
+                  if rated_stars == 1
+                    input#star1(type='radio' name='rate' value='1' checked)
+                  else
+                    input#star1(type='radio' name='rate' value='1')
+                  label(for='star1' title='text') 1 star
+
+
+            li(class="text-uppercase pt-3") #{info.review ? "" : "no rating yet"}
+
+
+  //listing comments
+  div(class="container")
+      div(class="product-main pb-5 mb-5")
+        span(class="h6 text-uppercase") We would like to hear you about #{info.name}
+
+        div(class="row")
+          div(class="col-lg-4 col-sm-6 my-3")
+              div(class="card border-0")
+                form( method="post" action="/homepage/reviewbrand/"+info._id class="unlisted-site mt-4")
+                    div(class="form-group")
+                      div(class="row")
+                        div(class="col-sm-3 col-12 text-lg-right")
+                          label(for="link") Make a review
+                        div(class="h6 col-sm-7 col-12")
+                          textarea(placeholder="Enter text here..." class="form-control" name="comments" id="comments" )
+
+                      div(class="row")
+                        div(class="col-12 col-sm-3")
+                        div(class="col-12 col-sm-9")
+                          button(class="btn btn-main py-2 px-3 mt-2" type="submit") Submit
+
+          div(class="col-lg-7 col-sm-12 my-3 px-4 example")
+            div(class="comment-description")
+              div(class="card-footer bg-transparent border-0 product-info")
+                if info.comments.length
+                  each comments , index in info.comments
+                    h6(class="card-title date") #{comments.comment}
+                    p #{comments.name} : #{comments.date}
+                    hr
+                else
+                  h6 No reviews yet
+
+  //- May like
+  div(class="may-like pt-5")
+    div(class="container")
+      span(class="h5 text-uppercase") Products from #{info.name}
+
+      div(class="row")
+        each product,index in prods
+          if product.name != prod_id
+            if index < 3
+              each pic,index in product.photos
+                if index == 0
+                  div(class="col-lg-4 col-sm-6 my-3")
+                    div(class="card border-0")
+                      img(src=pic['path'] alt="Product"+index+1 class="card-img product-img u-rounded-border")
+                      div(class="card-img-overlay rating")
+                        - var rated_stars = 0
+                        if product.review.length
+                          each review , index in product.review
+                            - rated_stars += review.rate
+                          -rated_stars /= (product.review.length)
+                        else
+                          - rated_stars = 0
+
+                        if Math.ceil(rated_stars) == 5
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                        if Math.ceil(rated_stars) == 4
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 3
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 2
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 1
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 0
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+
+                      div(class="card-footer bg-transparent border-0 product-info")
+                        h5(class="card-title product-name") #{product.name}
+                        span(class="card-text product-amount") Rs.#{product.price}
+
+                      div(class="info")
+                        div(class="links")
+                          form(action="/order/addtocart/"+product._id, method='POST' id=product._id class='d-inline')
+                            input(type='hidden' name='id',value=product.id)
+                            input(type='hidden' name='sku',value=product.sku)
+                            input(type='hidden' name="productname", value=product.name)
+                            input(type='hidden' name="description", value=product.description)
+                            input(type='hidden' name="photos", value=product.photos[0].path)
+                            input(type='hidden' name="caption", value=product.caption)
+                            input(type='hidden' name="productprice", value=product.price)
+                            input(type='hidden' name="quantity", value=1)
+                            a(href="#")
+                              i(class="fa fa-cart-plus zoom-span" onclick="document.getElementById('" +product._id + "').submit(); return false;" )
+                          //- a(href="/product")
+                          //-     i(class="fa fa-star")
+                          a(href="/homepage/product/"+product._id class='border-left')
+                            i(class="fa fa-eye")
+
+
+include partials/footer
+
+
+script.
+  function rateMe() {
+    document.getElementById('ratestars').submit(); return false;
+  }

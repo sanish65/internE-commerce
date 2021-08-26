@@ -1,0 +1,136 @@
+extends ../billdisplay
+block content
+  //- .row.bill-logo-row
+  //-   img.bill-logo(src="/xinney_black.png" alt="Logo")
+  //- .row.thankyou-bill
+  //-   p 
+  //-     |Dear #{order.name},<br/><br/>
+  //-     |Please accept our sincerest thanks and gratitude for your recent purchase with us. It was truly our pleasure to serve you.<br/><br/>
+  //-     |Here at Xinney, we strive to provide the highest level of service as possible. We hope that your experience with us was a pleasant one, and hope that we can be of service to you again in the future. As a valued customer, your comments and opinion are very important to us. If you have any concerns, questions or comments, we hope that you will bring them to our attention.<br/><br/> 
+  //-     |If there are any other ways that we can serve you better at this time or in the future please let us know. Thank you once again for your business, and we will look forward to serving you again in the future.<br/><br/>
+  //-     |Sincerely,<br/>
+  //-     |Xinney       
+  //- .row.invoice
+  //-   .col-md-6
+  //-     p   
+  //-       label(class='col-form-label font-weight-bold srch', for='fname') OrderNo: #{order.ordernum}
+  //-     p   
+  //-       label(class='col-form-label font-weight-bold srch', for='fname') Name: #{order.name}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold srch', for='phone') Phone: #{order.phone}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold srch', for='email') Email: #{order.email}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold srch', for='instagram') Insta: #{order.insta}
+  //-   .col-md-6
+  //-     p   
+  //-       label(class='col-form-label font-weight-bold srch', for='fname') Date: #{order.orderdate}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold', for='fname') Location: #{order.location}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold', for='fname') Nearby: #{order.nearby}
+  //-     p
+  //-       label(class='col-form-label font-weight-bold', for='fname') City: #{order.city}
+  //- .row
+  //-   table.table.table-bordered.table-sm.table-bill
+  //-    thead
+  //-     tr
+  //-      th(scope='col') No.
+  //-      th(scope='col') Name
+  //-      th(scope='col') Price
+  //-      th(scope='col') Count
+  //-      th(scope='total') Sub-total 
+  //-    tbody
+  //-    - var n = 0;
+  //-    for item in order.products
+  //-     - n++;
+  //-     tr
+  //-       th(scope='row') #{n}
+  //-       td #{item.name}
+  //-       td #{item.price}
+  //-       td #{item.count}
+  //-       td #{item.subtotal}
+  //-    thead
+  //-     tr
+  //-       td
+  //-       td
+  //-       td
+  //-       th(scope='row') Delivery
+  //-       td #{order.deliverycost}
+  //-     tr
+  //-       td
+  //-       td
+  //-       td
+  //-       th(scope='row') Total
+  //-       td #{order.totalprice}
+  .row.bill-logo-row
+    img.bill-logo(src="/xinney_black.png" alt="Logo")
+  .row.invoice-new
+    header
+      address.contenteditable
+        h1 Invoice
+        p #{order.name}
+        p #{order.location} nearby #{order.nearby} , #{order.city}
+        p #{order.phone}
+    article      
+      table.meta
+        tr
+          th 
+            span.contenteditable Order#
+          td
+            span.contenteditable #{order.ordernum}
+        tr
+          th
+            span.contenteditable Date
+          td
+            span.contenteditable #{order.orderdate}
+      table.inventory
+        thead
+          tr
+            th(style="width:6%")
+              span.contenteditable Sno
+            th(style="width:54%")
+              span.contenteditable Name
+            th(style="width:15%")
+              span.contenteditable Price
+            th(style="width:10%")
+              span.contenteditable Quantity
+            th(style="width:15%")
+              span.contenteditable Sub-total
+        tbody
+        - var n = 0;
+        for item in order.products
+          - n++;          
+          tr
+            td
+              span.contenteditable #{n}
+            td
+              span.contenteditable #{item.name}
+            td
+              span.contenteditable #{item.price}
+            td
+              span.contenteditable #{item.count}
+            td
+              span.contenteditable #{item.subtotal}
+      table.balance
+        tr
+          th
+            span.contenteditable Delivery
+          td
+            span.contenteditable #{order.deliverycost}
+        tr
+          th
+            span.contenteditable Adjustment
+          td
+            span.contenteditable 0
+        tr
+          th
+            span.contenteditable Total
+          td
+            span.contenteditable #{order.totalprice}
+    article
+    aside
+      h1
+        span.contenteditable Additional Notes
+      div.contenteditable
+        p.notes #{order.notes}

@@ -1,0 +1,77 @@
+ h1 to covert the Pre-ordered product to inventory,fill the forms
+    .form-group.row
+        .col-md-1
+            label(class='col-form-label font-weight-bold', for='sku') SKU
+        .col-md-4
+            input.form-control(type='text', name='sku', id='sku', autocomplete='sku', autofocus=true, placeholder="SKU" required)
+
+    .form-group.row
+        .col-md-1
+            label(class='col-form-label font-weight-bold', for='description') Description
+        .col-md-11
+            textarea.form-control(name='description', id='description', autocomplete='description', autofocus=true, placeholder="Description" required)
+    
+    .form-group.row
+        .col-md-1
+            label(class='col-form-label font-weight-bold', for='color') Color
+        .col-md-4
+            input.form-control(type='text', name='color', id='color', autocomplete='color', autofocus=true, placeholder="White" required)
+    .form-group.row
+        .col-md-1
+            label(class='col-form-label font-weight-bold', for='brand') Brand
+        .col-md-4
+            <select class="status" data-style="btn-info" name="brand">
+                <optgroup label="Select Brand">
+                    each brand in product.brands
+                        <option name=#{brand} value=#{brand}>#{brand}</option>
+                </optgroup>
+            </select>
+    .form-group.row
+        
+       
+        .col-md-1
+            label(class='col-form-label font-weight-bold', for="categories") Categories
+        - catgs = product.categories
+        - id_names = product.idnames
+        include ../partials/categoryprint      
+      
+
+    .form-group.row
+       .col-md-1
+        label(class='col-form-label font-weight-bold', for='location') Location (Default Ordered)
+       .col-md-4
+        <select class="status" data-style="btn-info" name="location">
+            if product.locationdb
+                <option name=#{product.locationdbkey} value=#{product.locationdbkey}> #{product.locationdb}</option>
+            each p_loc in product.prodloc
+                each val,key in p_loc
+                    <option name=#{key} value=#{key} >#{val}</option>
+        </select>
+
+
+    .form-group.row
+       .col-md-1
+        label(class='col-form-label font-weight-bold', for='count') Count (Default 0)
+       .col-md-4
+        input.form-control(type='input', name='count', id='count', autocomplete='count', placeholder="text of products" value=product.count)
+
+
+    style.
+         div.preview-images > img {
+          background-color: white;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          margin-bottom: 25px;
+          padding: 10px;
+            }
+    .form-group.row
+      .col-md-1
+        label(class='col-form-label font-weight-bold', for='pimage') Image
+      .col-md-4
+        input#input-multi-files.form-control-file.border(type='file', name='multi-files', multiple='' , required)
+
+        input.form-control(type="text",name="caption", placeholder="caption e.g xinney hair oil")
+      
+    .form-group.row
+      .col-sm-12
+       label(class='col-form-label font-weight-bold', for='pimage') 
+         .preview-images

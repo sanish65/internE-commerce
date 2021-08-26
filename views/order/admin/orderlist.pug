@@ -1,0 +1,53 @@
+extends ../../layout-admin
+
+block content
+  .container
+    div(class="container-fluid")
+      div(class="page-title")
+        h3 Orders
+      div(class="row")
+        div(class="col-md-12 col-lg-12")
+          div(class="card")
+            div(class="card-header h5") Order List
+            div(class="card-body")
+              div(class="row")
+                div(class="col-sm-12 col-md-6")
+
+              div(class="table-responsive")
+                table(class="table table-striped" id="myTable")
+                  thead(class="thead-dark")
+                    tr
+                      th Date
+                      th Order No
+                      th Name
+                      th Insta
+                      th Phone
+                      th Address
+                      th Products
+                      th Counts
+                      th Price
+                      th Delivery
+                      th Total Price
+                      th Del By
+                      th
+                      th
+
+                  tbody
+                    for item in items
+                      tr(class='all' + item.colorcode)
+                        th(scope='row') #{item.date}
+                        td #{item.ordernum}
+                        td #{item.firstname}
+                        td #{item.insta}
+                        td #{item.phone}
+                        td #{item.city}
+                        td #{item.prod}
+                        td #{item.prodcount}
+                        td #{item.prodprice}
+                        td #{item.delcost}
+                        td #{item.totalprice}
+                        td #{item.delivperson}
+                        td
+                          a.btn.btn-outline-primary(href="/order/editorder/"+item.id) Edit
+                        td
+                          a.btn.btn-outline-success(href="/order/createbilltemplate/"+item.id) Bill

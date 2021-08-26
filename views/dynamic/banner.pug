@@ -1,0 +1,60 @@
+extends ../layout-admin
+
+block content
+  div(class="container")
+      div(class="row")
+          div(class="col-lg-12")
+              div(class="card")
+                  div(class="card-header h5") Add Banners 
+                  div(class="card-body")
+                    form(method = 'POST' action='/customization/addBanner' enctype='multipart/form-data')
+                      input(type='hidden', name='_csrf', value=_csrf)
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='name') Banner Topic
+                        .col-md-4
+                          input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus=true, placeholder="Name of the Banner")
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='subname') Sub-heading
+                        .col-md-4
+                          input.form-control(type='text', name='subname', id='subname', autocomplete='subname', autofocus=true, placeholder="Sub-heading here")
+
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='pimage') Banners
+                        .col-md-4
+                          input#input-multi-files.form-control-file.border(type='file', name='multi-files', multiple='' , required)
+
+                          input.form-control(type="text",name="caption", placeholder="caption e.g xinney")
+
+                      .form-group.row
+                        .col-sm-12
+                          label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                            .preview-images
+            
+                      .form-group
+                        .col-md-10.offset-md-2
+                          button.btn.btn-primary(type='submit')
+                            | Add Banner
+
+                  div(class="card-header h5") Add Logos 
+                  div(class="card-body")
+                    form(method = 'POST'  action='/customization/addLogos' enctype='multipart/form-data')
+                      input(type='hidden', name='_csrf', value=_csrf)
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='pimage') Logo/icon
+                        .col-md-4
+                          input#input-multi-filessecond.form-control-file.border(type='file', name='multi-files', required)
+
+                          input.form-control(type="text",name="caption", placeholder="caption e.g xinney")
+
+                      .form-group.row
+                        .col-sm-12
+                          label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                            .preview-filessecond
+                      .form-group
+                        .col-md-10.offset-md-2
+                          button.btn.btn-primary(type='submit')
+                            | Add Logo

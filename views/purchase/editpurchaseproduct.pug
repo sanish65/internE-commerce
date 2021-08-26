@@ -1,0 +1,45 @@
+.form-group.row
+  .col-md-1
+    label(class='col-form-label font-weight-bold', for='costprice') Name   
+  .col-md-8
+    input.form-control(type="input", class="searchName", placeholder="Enter product name", name="name", id='name', autocomplete='' ,value=prodHref.name || "")
+    //- input.form-control(type='input', name='name', id='name', autocomplete='name', placeholder="Product name" value=prodHref.name)   
+.form-group.row
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='wtype') Weight
+    </br>
+      <select class="status" data-style="btn-info" name="wtype">
+        <optgroup label="Select weight type">
+          each wtype in purHref.DropDownWeight
+            each val,key in wtype
+              if key==purHref.wtype[index]
+                <option value=#{purHref.wtype[index]} selected="selected">#{val}</option>
+          each wtypes in purHref.DropDownWeight
+            each val,key in wtypes
+              <option name=#{key} value=#{key} id="wtype">#{val}</option>
+          </optgroup>
+        </select>
+
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='weightmain') Main Weight
+    input.form-control(type='text', name='weight', id='weight', autocomplete='weight', autofocus=true, placeholder="LB/KG/Litre" value=prodHref.wmain)
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='weightsub') Sub Weight
+    input.form-control(type='text', name='weight', id='weight', autocomplete='weight', autofocus=true, placeholder="oz/gm/ml" value=prodHref.wsub)
+
+.form-group.row
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='costprice') Cost Price
+    input.form-control(type='input', name='costprice', id='costprice', autocomplete='costprice', placeholder="Cost Price" value=prodHref.costprice)
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='count') Count
+    input.form-control(type='input', name='count', id='count', autocomplete='count', placeholder="Count" value=prodHref.count)
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='totalcost') Total Cost
+    label.form-control(name='totalcost', id='totalcost') #{prodHref.totalcost}
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='totalcost') Selling price
+    input.form-control(type='input', name='sellprice', id='sellprice', autocomplete='sellprice', placeholder="Sell Price" value=prodHref.sellprice)
+  .col-md-3
+    label(class='col-form-label font-weight-bold', for='delete') Delete  Form
+    a.btn.btn-outline-primary(href="/purchase/purchaseDetails/"+purHref._id+"/"+prodHref._id+"/"+purHref.prodName[index]+"/"+prodHref.count+"/"+prodHref.costprice) Delete

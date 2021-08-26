@@ -1,0 +1,166 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='csrf-token', content=_csrf)
+    title= `${title || 'Xinney'} - Cosmetic Beauty Products`
+    link(rel='shortcut icon' href='/xinney_black.png')
+
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,500;1,300;1,500&display=swap")
+    link(rel='stylesheet' href='/css/style.css')
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js")
+    script(src="/js/script.js")
+
+
+  body
+    div(class="overlay")
+    //- Header topbar
+    div(class="header-topbar text-white")
+      div(class="container")
+        div(class="row pt-2")
+          div(class="col-md-6 col-sm-12")
+            ul(class="header-topbar-contact float-lg-left text-center")
+              li(class="d-inline-block mr-3")
+                i(class="fa fa-phone mr-2")
+                a(href="tel:+9779803100100" class="text-white") +9779803100100
+              li(class="d-inline-block mr-3")
+                i(class="fa fa-envelope-square mr-2")
+                a(href="mailto:info@xinney.com" class="text-white") info@xinney.com
+              li(class="d-inline-block mr-3")
+                a(href="#" class="text-white")
+                  i(class="fa fa-facebook-square mr-2")
+                a(href="#" class="text-white")
+                  i(class="fa fa-instagram")
+          div(class="col-md-6 col-sm-12 d-none d-sm-block")
+            ul(class="header-topbar-contact float-lg-right text-center")
+              li(class="d-inline-block mr-3") Free Shipping For All Products
+              li(class="d-inline-block mr-3")
+                a(href="/homepage/faq" class="text-white") FAQs
+              li(class="d-inline-block mr-3")
+                a(href="/contact" class="text-white") Contact Us
+
+              if !user
+                li(class="d-inline-block mr-3")
+                  a(href="/login" class="text-white") Login
+                li(class="d-inline-block mr-3")
+                  a(href="/signup/customer" class="text-white") Sign Up
+              else
+                li(class="d-inline-block mr-3")
+                  a(href=`${user ? `${user.usertype}/dashboard` : '/'}` class='text-white strong pl-2')
+                    strong(style="color: black;") My Account
+                li(class="d-inline-block mr-3")
+                  a(href='/logout' class='text-white')
+                    strong(style="color: black;") Logout
+
+
+    //- Header content
+    div(class="header-content sticky-top bg-light sticky-nav")
+      nav(class="navbar navbar-expand-xl navbar-light nav-menu")
+        div(class="container")
+          a(href="/" class="navbar-brand")
+            img(src="/uploaded_logo.png" height=100 alt="logo" class="img-fluid")
+          button(type="button" class="navbar-toggler nav-button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation")
+            div(class="bg-dark line1")
+            div(class="bg-dark line2")
+            div(class="bg-dark line3")
+          div(class="collapse navbar-collapse mobile-menu d-flex flex-column flex-xl-row" id="navbar")
+            ul(class="navbar-nav")
+              li(class="nav-item ml-xl-3")
+                a(href="/" class="nav-link") Home
+                  span(class="sr-only") (current)
+              li(class="nav-item ml-xl-3")
+                a(href="/homepage/categories/info" class="nav-link") Categories
+              li(class="nav-item ml-xl-3")
+                a(href="/homepage/shop" class="nav-link") Shop
+              li(class="nav-item ml-xl-3")
+                a(href="/homepage/brand" class="nav-link") Brand
+
+
+            form#searchBar(method="post" action="/homepage/searchProduct" class="form-inline ml-xl-auto")
+              input(type='text' , placeholder='What are you looking for?' name="searchname" id="searchvalue" , class=' autocomplete search-input ui-autocomplete ui-menu-item' , autocomplete='')
+              <input type="submit" value="&#xf002">
+
+            ul(class="navbar-nav ml-xl-3")
+              li(class="nav-item ml-xl-1")
+                a(href='/clientaccount' class="nav-link")
+                  i(class="fa fa-user-o")
+
+              li(class="nav-item ml-xl-1")
+                a(href='/order/myorder' class="nav-link")
+                  i(class="fa fa-shopping-basket")
+
+              li(class="nav-item ml-xl-1")
+                a(href="/order/mycart" class="nav-link cart")
+                  i(class="fa fa-cart-plus")
+                  span(class="badge total-cart") #{cart}
+              if user
+                li(class="nav-item ml-xl-1")
+                  a(href="/logout" class="nav-link")
+                    i(class="fa fa-sign-out" aria-hidden="true")
+              else
+                li(class="nav-item ml-xl-1")
+
+script.
+  $(function() {
+    $('#searchvalue').autocomplete({
+      source: function(letters, res) {
+        $.ajax({
+        url: "/homepage/search/searchAutoComplete",
+        dataType:"jsonp",
+        type:"GET",
+        data: letters,
+        success: function(tests) {
+          res(tests)
+        },
+        error: function(err){
+          res(err);
+        }
+      });
+    },
+      minLength: 1,
+
+    });
+
+  });
+
+  //- script.
+  //-   $(document).ready(function(){
+  //-     console.log("runs")
+  //-     $.get("/customization/getHeader", function(data, status){
+  //-       alert("Data: " + data + "\nStatus: " + status);
+  //-     });
+  //-   });
+
+//-   script. 
+//-     $(document).ready(function () {
+//-     $(document).tooltip();
+//-       $('#searchvalue').autocomplete({
+//-         source: function(letters, res) {
+//-         $.ajax({
+//-         url: "/homepage/search/searchAutoComplete",
+//-         dataType:"jsonp",
+//-         type:"GET",
+//-         data: letters,
+//-         success: function(tests) {
+//-           res(tests)
+//-         },
+//-         error: function(err){
+//-           res(err);
+//-         }
+//-        });
+//-       },
+//-       minLength: 1,
+//-     });
+//-     window.search = function () {
+//-         var a = document.getElementById('input').value;
+//-         confirm("You tried to search " + a + "!");
+//-     };
+//- });

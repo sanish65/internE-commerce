@@ -1,0 +1,41 @@
+
+.form-group.row
+  .col-md-1
+    label(class='col-form-label font-weight-bold' for='costprice') Name
+  .col-md-8
+    input.form-control(type="input" class="searchName" placeholder="Enter product name" name="name" id='name'+counter, autocomplete='' , value=purHref.name , required)
+
+.form-group.row
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='wtype') Weight
+    </br>
+    <select class="wtype" data-style="btn-info" name="wtype">
+      <optgroup label="Select weight type">
+
+        each wtypes in purHref.DropDownWeight
+          each val,key in wtypes
+            <option name=#{key} value=#{key} id="wtype">#{val}</option>
+        </optgroup>
+      </select>
+
+
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='weightmain') Main Weight
+    input.form-control(type='text' class='mainweight' name='weight' id='weight' autocomplete='weight', autofocus=true, placeholder="LB/KG/Litre" value=purHref.wmain , required)
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='weightsub') Sub Weight
+    input.form-control(type='text' name='weight' class='subweight' id='weight2' autocomplete='weight', autofocus=true, placeholder="oz/gm/ml" value=purHref.wsub ,required)
+
+.form-group.row
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='costprice') Cost Price
+    input.form-control(type='text' class='costprice' name='costprice' id='costprice' autocomplete='costprice' placeholder="Cost Price" value=purHref.costprice , required)
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='count') Count
+    input.form-control(type='text' name='count' id='count' autocomplete='count' placeholder="Count" value=purHref.count , required)
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='totalcost') Total Cost
+    label.form-control(name='totalcost' id='totalcost') #{purHref.totalcost}
+  .col-md-3
+    label(class='col-form-label font-weight-bold' for='totalcost') Selling price
+    input.form-control(type='text' name='sellprice' id='sellprice' autocomplete='sellprice' placeholder="Sell Price" value=purHref.sellprice)

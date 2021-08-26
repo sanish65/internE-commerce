@@ -1,0 +1,36 @@
+extends ../layout-admin
+
+block content
+    div(class="container")
+        div(class="row")
+            div(class="col-lg-12")
+                div(class="card")
+                    div(class="card-header h5") Purchase History 
+                    div(class="card-body")
+
+                      .row
+                        table.table.table-striped.table-hover.table-sm
+                          thead
+                            tr
+                              th(scope='col') SNo
+                              th(scope='col') Date
+                              th(scope='col') Purchase By
+                              th(scope='col') Cost Price
+                              th(scope='col') Sell Price
+                              th(scope="col") Total Bill Price
+                              th(scope='col') Count
+                              th(scope='col') Location
+                            //-  th(scope='col') Action
+                          tbody
+                            for item in items
+                              tr
+                                td #{item.no}
+                                td #{item.date ? item.date:"-"} 
+                                td #{item.purchaseperson ? item.purchaseperson:"-"} 
+                                td #{item.costprice ? item.costprice:"-"} 
+                                td #{item.sellprice ? item.sellprice:"-"} 
+                                td #{item.totalcost ? item.totalcost:"-"}
+                                td #{item.count ? item.count:"-" }
+                                td #{item.location ? item.location:"-"}
+                                //- td
+                                //-   a.btn.btn-outline-primary(href="/inventory/editpurchase/"+item.product_id+"/"+item.id) Edit

@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:3.6
+    container_name: xinney-mongo
+    volumes:
+      - /var/mongo/data:/data/db
+    ports:
+      - 27017:27017
+  web:
+    build: .
+    container_name: xinney-web
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/xinney
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 8080:8080
+    command: yarn start
+
+  mailcatcher:
+    image: dockage/mailcatcher:0.7.1
+    container_name: xinney-smtp
+    restart: always
+    logging:
+      driver: none
+    ports:
+      - 1025:1025 # SMTP
+      - 1080:1080 # mailcatcher

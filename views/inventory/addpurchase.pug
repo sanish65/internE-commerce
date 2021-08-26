@@ -1,0 +1,10 @@
+extends ../layout-admin
+
+block content
+    form(action='/inventory/addpurchase/'+prodAttr.id method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        include purchaseform
+        .form-group.row
+         .offset-md-12.col-md-12.p-1
+            button.btn.btn-primary(type='submit')
+              | Add Purchase

@@ -1,0 +1,26 @@
+include partials/headermain
+
+block content
+  div(class="container my-5")
+    div(class="page-title")
+      h3.page-header Contact
+    div(class="row")
+      div(class="col-lg-12")
+        div(class="card")
+          div(class="card-header h5") Contact Form
+          div(class="card-body")
+            form(method = "POST")
+              div(class="form-group row")
+                label(for="message" class="col-sm-2 font-weight-bold") Please describe the issue or your suggestion
+                div(class="col-sm-8")
+                  textarea(name="message" class="form-control" id="message" rows="7", autofocus=(!unknownUser).toString())
+
+              div(class="line")
+              br
+              div(class="form-group row")
+                div(class="col-sm-4 offset-sm-2")
+                  button(type="reset" class="btn btn-secondary mb-2") Cancel
+
+                  button(type="submit" class="btn btn-primary mb-2 ml-2") Send
+
+include partials/footer

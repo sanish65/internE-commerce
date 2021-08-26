@@ -1,0 +1,43 @@
+include ../../partials/headermain
+block content
+  .container.main-part.main-content
+    div(class="heading-section")
+      h2(class="text-center p-3") My Order
+      hr
+      .row
+        .col.text-center.text-uppercase
+          .row
+            //- single column
+            .col-10.mx-auto.col-md-2
+              h5.text-uppercase products
+            .col-10.mx-auto.col-md-4
+              h5.text-uppercase name of product
+            .col-10.mx-auto.col-md-2
+              h5.text-uppercase price
+            .col-10.mx-auto.col-md-2
+              h5.text-uppercase quantity
+            .col-10.mx-auto.col-md-2
+              h5.text-uppercase total
+      hr
+      for item in items
+        hr
+        if item.price.costprice
+          .row.my-3.align-items-center.text-center
+            .col-10.mx-auto.col-md-2
+              img(src=item.photos alt=item.caption class="img-fluid")
+            .col-10.mx-auto.col-md-4
+              h5.product-name #{item.productname}
+            .col-10.mx-auto.col-md-2
+              h5 Rs. #{item.price.costprice}
+            .col-10.mx-auto.col-md-2
+              h5 #{item.price.quantity}
+            .col-10.mx-auto.col-md-2
+              h5.product-name Rs. #{item.price.totalprice}
+        else
+          .col(style='padding:20px;margin:10px;background-color:#fafad2;text-align:center;')
+            h3 Pending Order
+            h3 #{item.productname}
+            h4 Quantity: #{item.price.quantity}
+
+        div(style='border-bottom:1px solid grey')
+

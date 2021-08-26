@@ -1,0 +1,20 @@
+extends ../../layout
+
+block content
+  h1(style='margin-top:15px;') Please check if your preferred product is on list
+  br
+  form(action='/order/matchproduct/'+info._id, method='POST', onsubmit="return confirm('Please check if you have selected the right product and right quantity, once you select, you cannot undo the process');")
+    input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden',name='email', value = info.email)
+    for item in items
+      input(type='radio', id='productname', name='productname', value=item.productname)
+      label(for='productname') #{item.productname}
+      br
+    
+    .pb-2.mt-2.mb-4.border-bottom
+    h6 Quantity :  
+      input(class="quantity",min="1",max=href.productCount ,name='quantity' ,id='quantity', value=href.productCount  type="number" style='width:10%')
+    button(class="btn btn-outline-success" type='submit') Match
+
+
+    

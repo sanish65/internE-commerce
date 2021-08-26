@@ -1,0 +1,89 @@
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='purchasedate') Date
+  .col-md-4
+    input.form-control(type='date' name='purchasedate' id='purchasedate' autocomplete='purchasedate' placeholder="Product Purchase Date" value=purHref.purchasedate required)
+
+.form-group.row
+  .col-md-2
+    label(class='col=form-label font-weight-bold' for='location') location
+  .col-md-4
+    <select class="form-control location" data-style="btn-info" name="location" required>
+      each p_loc in purHref.DropDownLocation
+        each val,key in p_loc
+          if key==purHref.locations
+            <option value=#{purHref.locations} selected="selected">#{val}</option>
+      each p_loc in purHref.DropDownLocation
+        each val,key in p_loc
+          <option name=#{key} value=#{key} id="locations">#{val}</option>
+    </select>
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='purchasetype') Type
+  .col-md-4
+
+    <select class="form-control status" data-style="btn-info" name="purchasetype" required>
+    <br>
+      each payment in purHref.DropDownPurchase
+        each val,key in payment
+          if key==purHref.type
+            <option value=#{purHref.type} selected="selected">#{val}</option>
+      each payment_method in purHref.DropDownPurchase
+        each val,key in payment_method
+          <option name=#{key} value=#{key} id="type">#{val}</option>
+    </select>
+
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='source') Source
+  .col-md-4
+    input.form-control(type='input' name='source' id='source' autocomplete='source' placeholder="http://sephora.com" value=purHref.source required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='email') Email
+  .col-md-4
+    input.form-control(type='input' name='email' id='email' autocomplete='email' placeholder="xinneynepal@gmail.com" value=purHref.email required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='billid') Bill id
+  .col-md-4
+    input.form-control(type='text' name='billid' id='billid' autocomplete='billid' placeholder="Bill text if avail" value=purHref.billid required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='paymethod') Paymethod
+  .col-md-4
+    <select class="form-control status" data-style="btn-info" name="paymethod" required>
+      each payment in purHref.DropDownPurchaseMethod
+        each val,key in payment
+          if key==purHref.paymentmethod
+            <option value=#{purHref.paymentmethod} selected="selected">#{val}</option>
+      each payment_method in purHref.DropDownPurchaseMethod
+        each val,key in payment_method
+          <option name=#{key} value=#{key} id="paymentmethod">#{val}</option>
+    </select>
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='tax') Tax
+  .col-md-4
+    input.form-control(type='text' name='tax' id='tax' autocomplete='tax' placeholder="tax on bill" value=purHref.tax required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='totalamt') Total Amount
+  .col-md-4
+    input.form-control(type='text' name='totalamt' id='totalamt' autocomplete='totalamt' placeholder="total cost on bill" value=purHref.totalamt required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='purchaseperson') Purchase By
+  .col-md-4
+    input.form-control(type='input' name='purchaseperson' id='purchaseperson' autocomplete='purchaseperson' placeholder="Purchased By" value=purHref.purchaseperson required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='formcount') Forms #
+  .col-md-4
+    input.form-control(type='text' name='formcount' id='formcount' autocomplete='formcount' class='formcount' placeholder="20" value=purHref.formcount required)
+.form-group.row
+  .col-md-2
+    label(class='col-form-label font-weight-bold' for='notes') Notes
+  .col-md-8
+    textarea.form-control(name='notes' id='notes' autocomplete='notes') #{purHref.notes}
+

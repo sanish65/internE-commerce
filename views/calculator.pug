@@ -1,0 +1,71 @@
+extends layout-admin
+
+
+block content
+  div(class="container")
+    div(class="page-title")
+      h3.page-header Calculator
+    div(class="row")
+      div(class="col-lg-12")
+        div(class="card")
+          div(class="card-body")
+
+            form(method='POST')
+              input(type='hidden' name='_csrf', value=_csrf)
+
+              .form-group.row
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='wtype') Weight
+
+                .col-md-3
+                  <select class="form-control status" data-style="btn-info" name="wtype">
+                  <optgroup label="Select weight type">
+                    each wtype in calHref.DropDownWeight
+                      each val,key in wtype
+                        if key==calHref.wtype
+                          <option value=#{calHref.wtype} selected="selected">#{val}</option>
+                    each wtypes in calHref.DropDownWeight
+                      each val,key in wtypes
+                        <option name=#{key} value=#{key} id="wtype">#{val}</option>
+                    </optgroup>
+                  </select>
+              .form-group.row
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='weightmain') Main Weight
+                .col-md-3
+                  input.form-control(type='text' class='mainweight' name='mainweight' id='weight' autocomplete='weight', autofocus=true, placeholder="LB/KG/Litre" , required, value = calHref.mainweight)
+              .form-group.row
+
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='weightsub') Sub Weight
+                .col-md-3
+                  input.form-control(type='text' name='subweight' class='subweight' id='weight2' autocomplete='weight', autofocus=true, placeholder="oz/gm/ml" ,required ,value = calHref.subweight)
+
+              .form-group.row
+
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='weightsub') Costprice
+                .col-md-3
+                  input.form-control(type='text' name='costprice' class='costprice' id='costprice' autocomplete='costprice', autofocus=true, placeholder="" ,required , value = calHref.costprice)
+
+
+              .form-group
+                .offset-md-2.col-md-8.p-1
+                  button.btn.btn-primary(type='submit')
+                    i.far.fa-sm
+                    | Send
+
+              .form-group.row
+
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='weightsub') Total Cost
+                .col-md-3
+                  input.form-control(type='text' name='totalcost' class='totalcost' id='totalcost' autocomplete='totalcost', autofocus=true, placeholder="" , value = calHref.totalcost)
+
+              .form-group.row
+
+                .col-md-2
+                  label(class='col-form-label font-weight-bold' for='weightsub') Sellprice
+                .col-md-3
+                  input.form-control(type='text' name='sellprice' class='sellprice' id='sellprice' autocomplete='sellprice', autofocus=true, placeholder=""  , value = calHref.sellprice)
+

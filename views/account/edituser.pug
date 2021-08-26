@@ -1,0 +1,102 @@
+extends ../layout-admin
+
+block content
+  div(class="container")
+    div(class="page-title")
+      h4 Edit User Information - #{edituser.userdetails.firstname}
+    div(class="row")
+      div(class="col-lg-12")
+        div(class="card")
+          div(class="card-header h5") Edit Information
+          div(class="card-body")
+            form(action='/edituser/'+edituser._id, method='POST')
+              input(type='hidden' name='_csrf', value=_csrf)
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='email') Email
+                div(class="col-sm-6")
+                  input.form-control(type='email' name='email' id='email', value=edituser.email, autocomplete='email')
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='profilename') Profile Name
+                div(class="col-sm-6")
+                  input.form-control(type='text' name='profilename' id='profilename', value=edituser.profile.name, autocomplete='profilename')
+              .form-group.row
+                label.col-sm-2.col-form-label.font-weight-bold(for='usertype') Usertype
+                .col-sm-4
+                  <select class="form-control status" data-style="btn-info" name="usertype">
+                  <optgroup label="Select Status">
+                    each usertype_selected in edituser.dropdownUsertype
+                      each val,key in usertype_selected
+                        if key==edituser.usertype
+                        <option value=#{edituser.usertype} selected="selected">#{val}</option>
+                    each usertype_type in edituser.dropdownUsertype
+                      each val,key in usertype_type
+                        <option name=#{key} value=#{key} id="usertype">#{val}</option>
+                    </optgroup>
+                  </select>
+              .form-group.row
+                label.col-sm-2.col-form-label.font-weight-bold(for='userstatus') User status
+                .col-sm-6
+                  .custom-control.custom-switch
+                    input.custom-control-input(type='checkbox' id='userstatus' name='userstatus' value='Active',checked=edituser.status == 'Active')
+                    input.custom-control-input(type='checkbox' id='userstatus' name='userstatus' value='Inactive',unchecked=edituser.status == 'Inactive')
+                    label.custom-control-label(for='userstatus') Active
+              .form-group.row
+                label.col-sm-2.col-form-label.font-weight-bold Gender
+                .col-sm-6
+                  .form-check.form-check-inline
+                    input(type='radio' class='form-check-input' checked=edituser.profile.gender == 'male' name='gender' value='male' data-toggle='radio')
+                    label.form-check-label Male
+
+                  .form-check.form-check-inline
+                    input(type='radio' class='form-check-input' checked=edituser.profile.gender == 'female' name='gender' value='female' data-toggle='radio')
+                    label.form-check-label Female
+
+                  .form-check.form-check-inline
+                    input(type='radio' class='form-check-input' checked=edituser.profile.gender == 'other' name='gender' value='other' data-toggle='radio')
+                    label.form-check-label Other
+
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='fname') First Name
+                div(class="col-sm-4")
+                  input.form-control(type='text' name='fname' id='fname', value=edituser.userdetails.firstname, autocomplete='fname')
+                label.col-sm-2.font-weight-bold(for='lname') Last Name
+                div(class="col-sm-4")
+                  input.form-control(type='text' name='lname' id='lname', value=edituser.userdetails.lastname, autocomplete='lname')
+
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='phone') Phone Number
+                div(class="col-sm-4")
+                  input.form-control(type='phone' name='phone' id='phone', value=edituser.userdetails.phone, autocomplete='phone')
+                label.col-sm-2.font-weight-bold(for='location') Location
+                div(class="col-sm-4")
+                  input.form-control(type='text' name='location' id='location', value=edituser.address.location, autocomplete)
+
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='nearby') Nearby
+                div(class="col-sm-4")
+                  input.form-control(type='text' name='nearby' id='nearby', value=edituser.address.nearby, autocomplete)
+                label.col-sm-2.font-weight-bold(for='city') City
+                div(class="col-sm-4")
+                  input.form-control(type='text' name='city' id='city', value=edituser.address.city, autocomplete)
+
+              div(class="form-group row")
+                label.col-sm-2.font-weight-bold(for='gravatar') Gravatar
+                div(class="col-sm-6")
+                  img(src=edituser.gravatar(), class='profile' width='100' height='100')
+
+              div(class="form-group")
+                .offset-sm-2.col-sm-8.pl-0
+                  button.btn.btn.btn-primary(type='submit')
+                    i.fa.fa-pencil-alt.fa-sm
+                    span    Update Profile
+
+          div(class="card-footer h5") Delete Account
+          div(class="card-body")
+            form(action='/deleteuser/'+edituser._id, method='POST' onsubmit="return confirm('Are you sure you want to delete your account?');")
+              div(class="form-group")
+                p.text-muted You can delete #{edituser.userdetails.firstname} #{edituser.userdetails.lastname}'s account, but keep in mind this action is irreversible.
+                input(type='hidden' name='_csrf', value=_csrf)
+                div(class="form-group")
+                  button.btn.btn.btn-danger(type='submit')
+                    i.fa.fa-trash-alt.fa-sm
+                    span    Delete Account

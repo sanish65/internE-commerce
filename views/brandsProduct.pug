@@ -1,0 +1,63 @@
+include partials/headermain
+//- Main section
+main
+  div(class="category mt-5")
+    div(class="heading-section")
+      div(class="container")
+        h2(class="text-center p-3") #{brand.name}
+
+        nav(class="breadcrumb")
+          a(href="#" class="breadcrumb-item text-dark") Home
+          a(href="#" class="breadcrumb-item text-dark") Brand
+          span(class="breadcrumb-item active") #{brand.name}
+  //- Product listing main
+  div(class="container")
+    div(class="brand-img pb-5 mb-5")
+      div(class="row")
+        div(class="col-lg-5 col-sm-12 my-3")
+          div(class="card border-0")
+            each pic,index in brand.thumbnail
+              if index == 0
+                img(src=pic['path'] alt="brand"+index+1 class="card-img border u-rounded-border")
+
+        div(class="col-lg-7 col-sm-12 my-3 px-4")
+          div(class="product-description")
+            h3(class="py-3") #{brand.shortdesc}
+            span(class="text-muted") 
+            //- #{info.inventory[0].count > 0 ? info.inventory[0].count + " nos available" : "sold out"}
+            p(class="description text-muted")
+              Lorem #{brand.description}
+
+            h6(class="pt-4") Country Origin
+            ul(class="list-unstyled pl-4")
+              li #{brand.country} 
+
+  //- May like
+  div(class="may-like pt-5")
+    div(class="container")
+      span(class="h5 text-uppercase") Products under #{brand.name} brand
+
+      div(class="row")
+        each product,index in brandall
+          each pic,index in product.photos
+            if index == 0
+              div(class="col-lg-4 col-sm-6 my-3")
+                div(class="card border-0")
+                  img(src=pic['path'] alt="Product"+index+1 class="card-img product-img u-rounded-border")
+
+                  div(class="card-footer bg-transparent border-0 product-info")
+                    h5(class="card-title product-name") #{product.name}
+                    span(class="card-text product-amount") Rs.#{product.price}
+
+                  div(class="info")
+                    div(class="links")
+                      a(href="/product")
+                        i(class="fa fa-cart-plus")
+                        //- a(href="/homepage/"+id)
+                        //-     i(class="fa fa-star")
+                        a(href="/homepage/product/"+product._id)
+                          i(class="fa fa-eye")
+
+
+
+include partials/footer

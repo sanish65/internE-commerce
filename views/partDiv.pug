@@ -1,0 +1,92 @@
+if info.length != 0
+  div(class="row" id="getInfo" class="getInfo")
+    each product,count in info
+      each pic,index in product.photos
+        if index == 0
+          div(class="col-md-6 col-sm-6 my-md-3 informationCard" id = "informationCard"+count)
+            div(class="card border-0")
+            img(src=pic['path'], alt="Product"+index+1 class="card-img category-img u-rounded-border" )
+            div(class="card-img-overlay rating")
+              - var rated_stars = 0
+              if product.review.length
+                each review , index in product.review
+                  - rated_stars += review.rate
+                -rated_stars /= (product.review.length)
+              else
+                - rated_stars = 0
+
+              if Math.ceil(rated_stars) == 5
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+              if Math.ceil(rated_stars) == 4
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star
+              if Math.ceil(rated_stars) == 3
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star
+                span.fa.fa-star
+              if Math.ceil(rated_stars) == 2
+                span.fa.fa-star.checked
+                span.fa.fa-star.checked
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+              if Math.ceil(rated_stars) == 1
+                span.fa.fa-star.checked
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+              if Math.ceil(rated_stars) == 0
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+                span.fa.fa-star
+            div(class="card-footer bg-transparent border-0 product-info" id="checkprice")
+              h5(class="card-title product-name" id="pname") #{product.name}
+              span Rs.
+                div(class="card-text product-amount" id="price") #{product.price}
+            div(class="info")
+              div(class="links")
+                form(action="/order/addtocart/"+product._id, method='POST' id=product._id class='d-inline')
+                  input(type='hidden' name='id',value=product.id)
+                  input(type='hidden' name='sku',value=product.sku)
+                  input(type='hidden' name="productname", value=product.name)
+                  input(type='hidden' name="description", value=product.description)
+                  input(type='hidden' name="photos", value=product.photos[0].path)
+                  input(type='hidden' name="caption", value=product.caption)
+                  input(type='hidden' name="productprice", value=product.price)
+                  input(type='hidden' name="quantity", value=1)
+                  a(href="#")
+                    i(class="fa fa-cart-plus zoom-span" onclick="document.getElementById('" +product._id + "').submit(); return false;" )
+                //- a(href="/product")
+                //-     i(class="fa fa-star")
+                a(href="/homepage/product/"+product._id class='border-left')
+                  i(class="fa fa-eye")
+
+
+  div(class="row" id="getResponse" style="display : none")
+else
+  h3 Sorry nothing to view yet.
+
+script.
+  $('#getInfo').pagination({
+    dataSource: [1, 2, 3, 4, 5, 6, 7, ... , 50],
+    pageSize: 5,
+    pageRange: null,
+    showPageNumbers: true,
+    callback: function(data, pagination) {
+      // template method of yourself
+      var html = template(data);
+      dataContainer.html(html);
+    }
+  })

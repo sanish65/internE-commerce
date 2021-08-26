@@ -1,0 +1,22 @@
+extends ./layout
+
+block content
+  //- Product listing main
+  .container
+    br
+    nav(class="breadcrumb")
+      a(href="#" class="breadcrumb-item text-dark") Home
+      a(href="#" class="breadcrumb-item text-dark") Product Purchase success
+    div(class="product-main pb-5 mb-5")
+      div(class="row")
+        div(class="col-lg-5 col-sm-12 my-3")
+          div(class="card border-0") 
+            p Successfully Paid
+            p click on the button to confirm your order
+
+            form(action='https://uat.esewa.com.np/epay/transrec' method='GET')
+                input(value='100' name='amt' type='hidden')
+                input(value='EPAYTEST' name='scd' type='hidden')
+                input(value='ee2c3ca1-696b-4cc5-a6be-2c40d929d453' name='pid' type='hidden')
+                input(value='000AE01' name='rid' type='hidden')
+                input(value='Submit' type='submit')

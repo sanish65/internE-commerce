@@ -1,0 +1,179 @@
+extends ../../layout-admin
+
+block content
+  div(class="container")
+    div(class="page-title")
+      h3.pag-header Edit Orders
+    div(class="row")
+      div(class="col-lg-12")
+        div(class="card")
+          div(class="card-header h5") Edit #{orders.ordernum}
+          div(class="card-body")
+            form(action='/order/editorder/'+orders._id method='POST')
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='fname') First Name
+                .col-md-4
+                  input.form-control(type='text' name='fname' id='fname' autocomplete='fname', autofocus=true, value=orders.userdetails.firstname)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='lname') Last Name
+                .col-md-4
+                  input.form-control(type='text' name='lname' id='lname' autocomplete='lname', autofocus=true, value=orders.userdetails.lastname)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='insta') Instagram
+                .col-md-4
+                  input.form-control(type='insta' name='insta' id='insta' autocomplete='insta', autofocus=true, value=orders.userdetails.instagram)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='phone') Phone
+                .col-md-4
+                  input.form-control(type='text' name='phone' id='phone' autocomplete='phone', autofocus=true, value=orders.userdetails.phone)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='email') Email
+                .col-md-4
+                  input.form-control(type='text' name='email' id='email' autocomplete='email', autofocus=true, value=orders.userdetails.email)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='dob') DOB
+                .col-md-4
+                  input.form-control(type='text' name='dob' id='dob' autocomplete='dob', autofocus=true, value=orders.userdetails.dob)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='locality') Location
+                .col-md-4
+                  input.form-control(type='text' name='location' id='location' autocomplete='location', autofocus=true, value=orders.address.location)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='nearby') Nearby
+                .col-md-4
+                  input.form-control(type='text' name='nearby' id='nearby' autocomplete='nearby', autofocus=true, value=orders.address.nearby)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='city') City
+                .col-md-4
+                  input.form-control(type='text' name='city' id='city' autocomplete='city', autofocus=true, value=orders.address.city)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='delivcost') Delivery Charge
+                .col-md-4
+                  if orders.freeze == 1
+                    input.form-control(type='text' name='delivcost' id='delivcost' autocomplete='delivcost', autofocus=true, value=orders.delivery.cost readonly)
+                  else
+                    input.form-control(type='text' name='delivcost' id='delivcost' autocomplete='delivcost', autofocus=true, value=orders.delivery.cost)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='notes') Notes
+                .col-md-8
+                  textarea.form-control(name='notes' id='notes' autocomplete='notes', autofocus=true) #{orders.delivery.notes}
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='delivstatus') Delivery status
+                .col-md-4
+                  if orders.freeze == 1
+                    .row
+                      .col-md-3
+                        each selected in orders.dropDownDeliv
+                          each val,key in selected
+                            if key==orders.delivery.status
+                              input.form-control(type='text' class='field left' id='delivstatus' autocomplete='delivstatus', autofocus=true, value=val readonly)
+                      .col-md-7
+                        .row
+                          .col-md-3
+                            label(class='font-weight-bold') Last updated :
+                          .col-md-4
+                            h6(class='text-muted') #{orders.updatedstatus}
+                  else
+                    <select class="form-control status" data-style="btn-info" name="delivstatus">
+                      <optgroup label="Select Status">
+                        each del_selected in orders.dropDownDeliv
+                          each val,key in del_selected
+                            if key==orders.delivery.status
+                              <option value=#{orders.delivery.status} selected="selected">#{val}</option>
+                        each deliv_type in orders.dropDownDeliv
+                          each val,key in deliv_type
+                            <option name=#{key} value=#{key} id="delivstatus">#{val}</option>
+                        </optgroup>
+                      </select>
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='delivperson') Delivered by
+                .col-md-8
+                  input.form-control(name='delivperson', id='delivperson', autocomplete='delivperson', autofocus=true,
+                  value=orders.delivery.person)
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='paymentmethod') Payment Method
+                .col-md-4
+                  <select class="form-control status" data-style="btn-info" name="paymentmethod">
+                    <optgroup label="Select Payment Method">
+                      each payment_selected in orders.dropDownPayment
+                        each val,key in payment_selected
+                          if key==orders.paymentmethod
+                            <option value=#{orders.paymentmethod} selected="selected">#{val}</option>
+                      each payment_method in orders.dropDownPayment
+                        each val,key in payment_method
+                          <option name=#{key} value=#{key} id="paymentmethod">#{val}</option>
+
+                      </optgroup>
+                  </select>
+              .form-group.row
+                label(class='col-md-2 col-form-label font-weight-bold' for='city') Product Name/Rs/No
+                .col-md-7
+                  td
+                    input.form-control(type='text' name='prodname' autocomplete='' id='prodname')
+                .col-md-2
+                  td
+                    input.form-control(type='text' name='prodprice' autocomplete='')
+                .col-md-1
+                  td
+                    input.form-control(type='text' name='prodcount' autocomplete='')
+              .form-group.row
+                table.table
+                  thead
+                    tr
+                      th(scope='col') Product Name
+                      th(scope='col') Price
+                      th(scope='col') Count
+                  tbody
+                    for item in orders.products
+                      tr
+                        .form-group.row
+                          .col-md-8
+                            td
+                              if orders.freeze == 1
+                                input.form-control(type='text', name=item.id,  autocomplete='' value=item.name readonly)
+                              else
+                                input.form-control(type='text', name=item.id,  autocomplete='' value=item.name)
+                          .col-md-2
+                            td
+                              if orders.freeze == 1
+                                input.form-control(type='text', name=item.id, autocomplete='' value=item.price readonly)
+                              else
+                                input.form-control(type='text', name=item.id, autocomplete='' value=item.price)
+                          .col-md-1
+                            td
+                              if orders.freeze == 1
+                                input.form-control(type='text', name=item.id, autocomplete='' value=item.count readonly)
+                              else
+                                input.form-control(class="quantity" min="1", name=item.id, max=item.count, value=item.count type="number" style='width:100%')
+                          if item.status === 'unmatched'
+                            .col-md-1
+                              td
+                                a(href='/order/matchproduct/'+orders._id type="button" class="btn btn-outline-info btn-sm") Match your product
+
+              .form-group.row
+                .offset-md-2.col-md-10
+                  button.btn.btn-primary(type='submit')
+                    i.far.fa-envelope.fa-sm
+                    | Update Order
+
+  script.
+    $(function() {
+      $('#prodname').autocomplete({
+        source: function(letters, res) {
+          $.ajax({
+            url: "search/searchproductname/",
+            dataType:"jsonp",
+            type:"GET",
+            data: letters,
+            success: function(products) {
+              res(products)
+            },
+            error: function(err){
+              console.log(err.status);
+            }
+          });
+        }
+      });
+    });
+
+

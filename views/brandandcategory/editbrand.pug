@@ -1,0 +1,126 @@
+extends ../layout-admin
+
+block content
+  link(rel='stylesheet', href='/css/images.css')
+  div(class="container")
+        div(class="page-title")
+            h3.pag-header Brand
+        div(class="row")
+            div(class="col-lg-12")
+                div(class="card")
+                    div(class="card-header h5") Edit #{brand.name} 
+                    div(class="card-body")
+
+                        form(action='/brandandcategory/brandlist/'+brand._id method= 'POST', enctype='multipart/form-data')
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='name') Brand Type
+                            .col-md-4
+                              <select class="form-control status" data-style="btn-info" name="btype">
+                                <optgroup label="Brand Type">
+                                  <option name="btype" value=#{brand.type} selected="selected">#{brand.type}</option>
+                                  <option name="inventory" value="inventory" >Inventory</option>
+                                  <option name="preorder" value="preorder" >Preorder</option>
+                                </optgroup>
+                              </select>
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='name') Brand Name
+                            .col-md-4
+                              input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus=true, value=brand.name)
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='slug') Slug
+                            .col-md-4
+                              input.form-control(type='text', name='slug', id='slug', autocomplete='slug', autofocus=true, value=brand.slug)
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='shortdesc') Short Description
+                            .col-md-8
+                              textarea.form-control(name='shortdesc', id='shortdesc', autocomplete='shortdesc', autofocus=true) #{brand.shortdesc}
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='description') Description
+                            .col-md-8
+                              textarea.form-control(name='description', id='description', autocomplete='description', autofocus=true) #{brand.description}
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='country') Country
+                            .col-md-4
+                              input.form-control(type='text', name='country', id='country', autocomplete='country', autofocus=true, value=brand.country)
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='name') Brand Website
+                            .col-md-4
+                              input.form-control(type='text', name='website', id='website', autocomplete='website', autofocus=true, value=brand.website)
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='pimage') Banner
+                            .col-md-4
+                              input#input-multi-files.form-control-file.border(type='file', name='multi-files' )
+                              input.form-control(type="text",name="caption", placeholder="caption e.g xinney brand" value=brand.caption)
+                          .form-group.row
+                            .col-sm-12
+                              label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                                .preview-images
+
+
+                          .form-group.row
+                            each pic, index in brand.banner 
+                              .column(style="text-align:center")
+                                img.hover-shadow.cursor(src=pic['path'], alt= brand.caption style="width:100%" onclick="openModal();currentSlide("+(index+1)+")")
+
+                          #myModal.modal
+                            span.close.cursor(onclick="closeModal()") ×
+                            .modal-content
+                              each pic, index in brand.banner
+                                .mySlides
+                                  .numbertext #{index+1}/#{brand.banner.length} #{brand.caption}
+                                  img(src=pic['path'] style="width:100%")
+
+                              a.prev(onclick="plusSlides(-1)") ❮
+                              a.next(onclick="plusSlides(1)") ❯
+                              .caption-container
+                                p#caption
+                              each pic , index in brand.banner
+                                .column
+                                  img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=brand.caption)
+
+                          .form-group.row
+                            .col-md-2
+                              label(class='col-form-label font-weight-bold', for='pimage') Thumbnail
+                            .col-md-4
+                              input#input-multi-filessecond.form-control-file.border(type='file', name='multi-files' )
+                              input.form-control(type="text",name="caption1", placeholder="caption e.g xinney brand" value=brand.caption1)
+                          .form-group.row
+                            .col-sm-12
+                              label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                                .preview-filessecond
+
+
+                          .form-group.row
+                            each pic, index in brand.thumbnail 
+                              .column(style="text-align:center")
+                                img.hover-shadow.cursor(src=pic['path'], alt= brand.caption1 style="width:100%" onclick="openModalsecond();currentSlide(" +(index+1)+")")
+
+                          #myModalsecond.modal
+                            span.close.cursor(onclick="closeModalsecond()") ×
+                            .modal-content
+                              each pic, index in brand.thumbnail
+                                .mySlides
+                                  .numbertext #{index+1}/#{brand.thumbnail.length} #{brand.caption1}
+                                  img(src=pic['path'] style="width:100%")
+
+                              a.prev(onclick="plusSlides(-1)") ❮
+                              a.next(onclick="plusSlides(1)") ❯
+                              .caption-container
+                                p#caption
+                              each pic , index in brand.thumbnail
+                                .column
+                                  img.demo.cursor(src=pic['path'] style="width:100%" onclick="currentSlide(" +(index+1)+")" alt=brand.caption1)
+
+                          hr
+                          .form-group
+                            .col-md-10.offset-md-2
+                              button.btn.btn-primary(type='submit')
+                                | Update Brand

@@ -1,0 +1,101 @@
+extends ../../layout-admin
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Address Checker
+
+  form(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group.row
+      label(class='col-md-2 col-form-label font-weight-bold', for='phone') Phone Number
+      .col-md-6
+        input.form-control(type='text', name='phone', id='phone', autocomplete='phone')
+      .col-md-4
+        button.btn.btn-primary(type='submit' name='checkbtn')
+          i.far.fa-envelope.fa-sm
+          | Check Address
+
+  
+  .row
+  if item
+    if item != "empty"
+        form(action='/searchcustomer/'+item._id method='POST')
+          input(type='hidden', name='_csrf', value=_csrf)
+          .row
+            .form-group.row
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='fname') First Name
+                input.form-control(type='text', name='fname', id='fname', autocomplete='fname', autofocus=true, value=item.userdetails.firstname)
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='lname') Last Name
+                input.form-control(type='text', name='lname', id='lname', autocomplete='lname', autofocus=true,  value=item.userdetails.lastname)
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='phone') Phone
+                input.form-control(type='text', name='phone', id='phone', autocomplete='phone', value=item.userdetails.phone)
+            .form-group.row
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='email') Email
+                input.form-control(type='text', name='email', id='email', autocomplete='email',value=item.userdetails.email)
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='instaname') Instagram Name
+                input.form-control(type='text', name='instaname', id='instaname', autocomplete='instaname', value=item.userdetails.instagram)
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='dob') Date of Birth  
+                input.form-control(type='date', name='dob', id='dob', autocomplete='dob', value=item.userdetails.dob)
+            .form-group.row
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='location') Location
+                input.form-control(type='text', name='location', id='location', autocomplete='location', autofocus=true, value=item.address.location)
+              .col-md-4
+                label(class='col-form-label font-weight-bold', for='nearby') Nearby
+                input.form-control(type='text', name='nearby', id='nearby', autocomplete='nearby', value=item.address.nearby)
+              .col-md-4
+                label(class='col-md-2 col-form-label font-weight-bold', for='city') City
+                input.form-control(type='text', name='city', id='city', autocomplete='city', value=item.address.city)
+            .form-group.row
+              .col-md-12
+                label(class='col-form-label font-weight-bold', for='notes') Notes
+                textarea.form-control(name='notes', id='notes', autocomplete='notes', value=item.delivery.notes)  
+              .col-md-6
+                p
+                h4 Are these the correct Details?
+              .col-md-6
+                p
+                button.btn.btn-success(type='submit')
+                  | Yes, Submit Order
+
+
+          //-   .col-md-6
+          //-     p   
+          //-       label(class='col-form-label font-weight-bold srch', for='fname') First Name: #{item.userdetails.firstname}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold srch', for='lname') Last Name: #{item.userdetails.lastname}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold srch', for='phone') Phone: #{item.userdetails.phone}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold srch', for='email') Email: #{item.userdetails.email}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold srch', for='instagram') Insta: #{item.userdetails.instagram}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold srch', for='dob') DOB: #{item.userdetails.dob} 
+          //-   .col-md-6
+          //-     p
+          //-       labesl(class='col-form-label font-weight-bold', for='fname') Location: #{item.address.location}
+          //-     p
+          //-       label(class='col-form-label font-weight-bold', for='fname') Nearby: #{item.address.nearby}
+
+          //-     p
+          //-       label(class='col-form-label font-weight-bold', for='fname') City: #{item.address.city}
+          //- .row
+          //-   .col-md-8
+          //-     h4 Are these the correct Details?
+          //-   .col-md-4
+          //-     button.btn.btn-success(type='submit')
+          //-       | Yes, Submit My Order
+    else
+        h4 Your delivery details were not found. Please fill up your details.
+        a.btn.btn-success(href='order/orderform') Fill My Details
+
+
+
+

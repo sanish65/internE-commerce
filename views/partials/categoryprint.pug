@@ -1,0 +1,46 @@
+.col-md-4
+    // Count is useless
+    mixin displayer(id, count)
+        div(class="form-check")
+          if checker
+            - checkedId = checker[id]
+          if checkedId == 1
+              input(type="checkbox" class="form-check-input" id="dropdownCheck" name="category_ids_names" value=id checked)
+              label(class="form-check-label" for="dropdownCheck") #{id_names[id]}             
+          else 
+            input(type="checkbox" class="form-check-input" id="dropdownCheck" name="category_ids_names" value=id)
+            label(class="form-check-label" for="dropdownCheck") #{id_names[id]}
+    div(class="form-check")
+      // Because I was so   lazy, I did this
+      - count = 0
+      each val, key in catgs
+        - count = count + 1
+        +displayer(key, count)
+        div(class="form-check")
+          each new_val, new_key in val
+            - count = count + 1
+            +displayer(new_key, count)
+            div(class="form-check")
+              each nnew_val, nnew_key in new_val
+                - count = count + 1
+                +displayer(nnew_key, count)
+                div(class="form-check")
+                  each nnnew_val, nnnew_key in nnew_val
+                    - count = count + 1
+                    +displayer(nnnew_key, count)
+                    div(class="form-check")
+                      each nnnnew_val, nnnnew_key in nnnew_val
+                        - count = count + 1
+                        +displayer(nnnnew_key, count)
+                        div(class="form-check")
+                          each nnnnnew_val, nnnnnew_key in nnnnew_val
+                            - count = count + 1
+                            +displayer(nnnnnew_key, count)                        
+                            div(class="form-check")
+                              each nnnnnnew_val, nnnnnnew_key in nnnnnew_val
+                                - count = count + 1                    
+                                +displayer(nnnnnnew_key, count)  
+                                div(class="form-check")
+                                  each nnnnnnnew_val, nnnnnnnew_key in nnnnnnew_val
+                                    - count = count + 1;               
+                                    +displayer(nnnnnnnew_key, count)                 

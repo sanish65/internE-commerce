@@ -1,0 +1,145 @@
+nav(id="sidebar")
+  div(class="sidebar-header")
+    a(href="/")
+      img(src="../uploaded_logo.png" alt="Xinney logo" class="app-logo")
+
+  //- sidebar menu
+  ul(class="list-unstyled components text-secondary" id="myaccordian")
+    if !user
+      li.nav-item(class=(title === 'Login') ? 'active' :undefined)
+        a.nav-link(href='/login') Login
+      li.nav-item(class=(title === 'Create Account') ? 'active' :undefined)
+        a.nav-link(href='/signup/customer') Sign Up
+    else
+      li
+        a(href=`/${user.usertype}/dashboard` class="nav__link nav-active")
+          i(class="fa fa-home")
+          span Dashboard
+      if user.usertype !== "customer"
+        li
+          a(href="#menu1" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-layer-group")
+            span Orders
+          ul(class="collapse list-unstyled" id="menu1" data-parent="#myaccordian")
+            li
+              a(href="/order/list")
+                i(class="fa fa-angle-right")
+                span All
+            li
+              a(href="/order/pending")
+                i(class="fa fa-angle-right")
+                span Ordered
+            li
+              a(href="/order/delivered")
+                i(class="fa fa-angle-right")
+                span Delivered
+            li
+              a(href="/order/cancelled")
+                i(class="fa fa-angle-right")
+                span Cancelled
+
+        li
+          a(href="#menu2" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-cart-plus")
+            span Brand and Category
+          ul(class="collapse list-unstyled" id="menu2" data-parent="#myaccordian")
+            li
+              a(href="/brandandcategory/addbrand")
+                i(class="fa fa-angle-right")
+                span Add Brand
+            li
+              a(href="/brandandcategory/brandlist")
+                i(class="fa fa-angle-right")
+                span List Brand
+            li
+              a(href="/brandandcategory/addcategory")
+                i(class="fa fa-angle-right")
+                span Add Category
+            li
+              a(href="/brandandcategory/categorylist")
+                i(class="fa fa-angle-right")
+                span List Category
+
+        li
+          a(href="#menu3" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-cubes")
+            span Product
+          ul(class="collapse list-unstyled" id="menu3" data-parent="#myaccordian")
+            li
+              a(href="/inventory/productlist")
+                i(class="fa fa-angle-right")
+                span List Inventory
+            li
+              a(href="/inventory/addinventory")
+                i(class="fa fa-angle-right")
+                span Add Inventory
+            li
+              a(href='/producttracker/trackinglist')
+                i(class="fa fa-angle-right")
+                span Product Tracker
+
+        li
+          a(href="#menu4" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-credit-card")
+            span Purchase
+          ul(class="collapse list-unstyled" id="menu4" data-parent="#myaccordian")
+            li
+              a(href="/purchase/addpurchase")
+                i(class="fa fa-angle-right")
+                span Add Purchase
+            li
+              a(href="/purchase/purchaselist")
+                i(class="fa fa-angle-right")
+                span List Purchase
+        li
+          a(href="#menu5" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-credit-card")
+            span Links
+          ul(class="collapse list-unstyled" id="menu5" data-parent="#myaccordian")
+            li
+              a(href='/order/getListLinks/listed') 
+                i(class="fa fa-angle-right")
+                span List Links
+
+        li
+          a(href='/inventory/calculator')
+            i(class="fa fa-calculator")
+            span Calculator
+
+
+        li
+          a(href="#menu6" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fa fa-users")
+            span Users
+          ul(class="collapse list-unstyled" id="menu6" data-parent="#myaccordian")
+            li
+              a(href="/userlist")
+                i(class="fa fa-angle-right")
+                span All
+            li
+              a(href="/createuser")
+                i(class="fa fa-angle-right")
+                span Create User
+
+        li
+          a(href="#menu7" data-toggle="collapse" aria-expanded="false" class="nav__link dropdown-toggle no-caret-down")
+            i(class="fas fa-users")
+            span Customization
+          ul(class="collapse list-unstyled" id="menu7" data-parent="#myaccordian")
+            li
+              a(href="/customization/addbanner")
+                i(class="fas fa-angle-right")
+                span Manage display
+            li
+              a(href="/customization/listbanner")
+                i(class="fas fa-angle-right")
+                span Edit display
+
+            li
+              a(href="/meenu_copyright")
+                i(class="fas fa-angle-right")
+                span Manage copyright
+      li
+        a(href="/order/orderform" class="nav__link")
+          i(class="fa fa-wrench")
+          span Order Form

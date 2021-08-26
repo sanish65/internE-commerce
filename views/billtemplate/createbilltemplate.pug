@@ -1,0 +1,16 @@
+extends ../layout-admin
+
+block content
+  .container
+    h1 Templates
+    hr  
+  div(class="card-deck" style="margin:50px")
+    div(class="card" )
+      a(class="btn btn-outline-dark btn-lg" style="height:140px" href='/order/createbill/'+ _id) Default
+    div(class="card" )
+      a(class="btn btn-outline-dark btn-lg" style="height:140px;background-color:#dc143c" href='/order/createbilltemplate/red/'+ _id) Red
+  div(class="card-deck" style="margin:50px")
+    div(class="card" )
+      a(class="btn btn-outline-dark btn-lg" style="height:140px;background-color:#0892d0" href='/order/createbilltemplate/blue/'+ _id) Blue
+    div(class="card" )
+      a(class="btn btn-outline-dark btn-lg" style="height:140px;background-color:#f4ca16" href='/order/createbilltemplate/yellow/'+ _id) Yellow

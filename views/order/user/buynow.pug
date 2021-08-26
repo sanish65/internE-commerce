@@ -1,0 +1,245 @@
+include ../../partials/headermain
+
+block content
+.container.main-content
+  div(class="heading-section")
+    h2(class="text-center p-3") Order Form
+    hr
+  .row
+    .col.text-center.text-uppercase
+      .row
+        //- single column
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase products
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase product code
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase name of product
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase price
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase quantity
+        .col-10.mx-auto.col-md-2
+          h5.text-uppercase total
+
+      for item in items
+        hr
+        if userdetails.url == '/buynow'
+          if item.totalquantity > 0
+            .row.my-3.align-items-center.text-center
+              .col-10.mx-auto.col-md-2
+                img(src=item.photos alt=item.caption class="img-fluid")
+              .col-10.mx-auto.col-md-2
+                h5.product-name #{item.sku}
+              .col-10.mx-auto.col-md-2
+                h5.product-name #{item.productname}
+              .col-10.mx-auto.col-md-2
+                h5 Rs. #{item.totalprice}
+              .col-10.mx-auto.col-md-2
+                input(class="quantity" min="1",max=item.totalquantity ,name="quantity" ,id='quantity', value=item.quantity, type='number' style='width:25%')
+              .col-10.mx-auto.col-md-2
+                h5.product-name Rs. #{item.price.totalprice}
+          else
+            div(class="col-lg-4 my-3")
+              div(class="card order-card" style='opacity:0.5')
+                img(class="card-img card-img-top order-img" src=item.photos, alt=item.caption)
+                h6(align='center') Product Code: #{item.sku}
+                div(class="card-body")
+                  h4 #{item.productname}
+                  h4(class="card-text" style='color:red;font-weight:bold') Rs. #{item.totalprice}
+                  h6 Quantity:
+                    input(class="quantity" min="1",max=item.totalquantity ,name="quantity" ,id='quantity', value=item.quantity, type='number' style='width:25%')
+        else if userdetails.url =='/booknow'
+          div(class='col-lg-4 my-3')
+            div(class="card order-card")
+              img(class="card-img card-img-top order-img" src=item.photos, alt=item.caption)
+              h6(align='center') Product Code: #{item.sku}
+              div(class="card-body")
+                h4 #{item.productname}
+                h4(class="card-text" style='color:red;font-weight:bold') Rs. #{item.totalprice}
+                h6 Quantity:
+                  input(class="quantity" min="1",max=item.totalquantity ,name="quantity" ,id='quantity', value=item.quantity, type='number' style='width:25%')
+
+  .card.order-card.p-5.my-5
+    h2 Order Confirmation
+    hr
+
+    form(action='/order/confirmation' method='POST' onsubmit="return confirm('Are you sure you want to place order?');")
+      input(type='hidden' , name='_csrf', value=_csrf)
+      .form-group.row
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='fname') First Name
+          input.form-control(type='text' name='fname' id='fname' autocomplete='fname', autofocus=true, value=userdetails.fname, required)
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='lname') Last Name
+          input.form-control(type='text' name='lname' id='lname' autocomplete='lname', autofocus=true, value=userdetails.lname, required)
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='phone') Phone
+          input.form-control(type='text' name='phone' id='phone' autocomplete='phone', value=userdetails.phone, required)
+
+      .form-group.row
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='location') Location
+          input.form-control(type='text' name='location' id='location' autocomplete='location', autofocus=true, value=userdetails.location, required)
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='nearby') Nearby
+          input.form-control(type='text' name='nearby' id='nearby' autocomplete='nearby', value=userdetails.nearby, required)
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='city') City
+          input.form-control(type='text' name='city' id='city' autocomplete='city', value=userdetails.city, required)
+
+      .form-group.row
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='email') Email
+          input.form-control(type='text' name='email' id='email' autocomplete='email', value=userdetails.email, required)
+        .col-md-4
+          label(class='col-form-label font-weight-bold' , for='paymentmethod') Payment Method
+          <select class="form-control" data-style="btn-info" onchange="selectOnChange(value)" name="paymentmethod">
+            <optgroup label="Select Payment Method">
+              each val, key in paymentMethods
+                <option name=#{key} value=#{key} id="paymentmethod">#{val}</option>
+
+              </optgroup>
+          </select>
+        .col-md-4
+        .col-md-4
+          label(class='col-form-label font-weight-bold' for='totalamount') Total Amount
+          if userdetails.url == '/buynow'
+            h1 #{userdetails.totalpurchase}
+            input(type = 'hidden', name = 'url' value='buynow')
+          else if userdetails.url == '/booknow'
+            for item in items
+              h1 #{item.totalprice}
+              input(type = 'hidden', name = 'url' value='booknow')
+              input(type = 'hidden', name = 'productid', value = item.productid)
+              input(type = 'hidden', name = 'productname', value = item.productname )
+              input(type = 'hidden', name = 'description', value = item.description )
+              input(type = 'hidden', name = 'photos', value = item.photos)
+              input(type = 'hidden', name = 'caption', value = item.caption)
+              input(type = 'hidden', name = 'quantity', value = item.quantity)
+              input(type = 'hidden', name = 'costprice', value = item.price)
+
+        .col-md-4
+          form(action='https://uat.esewa.com.np/epay/main' method='POST')
+            input(value='100' name='tAmt' type='hidden')
+            input(value='90' name='amt' type='hidden')
+            input(value='5' name='txAmt' type='hidden')
+            input(value='2' name='psc' type='hidden')
+            input(value='3' name='pdc' type='hidden')
+            input(value='EPAYTEST' name='scd' type='hidden')
+            input(value='ee2c3ca1-696b-4cc5-a6be-2c40d929d453' name='pid' type='hidden')
+            input(value='http://merchant.com.np/page/esewa_payment_success?q=su' type='hidden' name='su')
+            input(value='http://merchant.com.np/page/esewa_payment_failed?q=fu' type='hidden' name='fu')
+
+          form(action="https://uat.esewa.com.np/epay/main" id='esewaPay' method='POST')
+            input(value=userdetails.totalcost , name='tAmt' , id='tAmt' type='hidden')
+            input(value=userdetails.totalpurchase  , name='amt' , id='amt' type='hidden')
+            input(value=userdetails.txAmt  , name='txAmt' id='txAmt' type='hidden')
+            input(value=userdetails.psc , name='psc' id='psc' type='hidden')
+            input(value=userdetails.pdc , name='pdc' id='pdc' type='hidden')
+            input(value='EPAYTEST' , name='scd' id='scd' type='hidden')
+            input(value=userdetails.pid , name='pid' id='pid' type='hidden')
+
+        div(class='col-lg-12 text-right')
+          button(class="btn btn-md" style='background-color:#ff0090;color:white;' type='submit' ) Confirm
+
+    
+
+
+include ../../partials/footer
+
+  script(src='https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js')
+  script. 
+    function selectOnChange($i) {
+      if($i == 'khalti'){
+        console.log("Triggered");
+        //- document.getElementById("ShowButton").innerHTML = "Pay with Khalti";
+        var tAmt = document.getElementById("tAmt").value;
+        var pid = document.getElementById("pid").value;     
+        function verifyPayment(payload) {
+          $.ajax({
+            url:'/order/khalti/verifyPayment',
+            type: 'POST',
+            data: payload,
+            dataType: 'json',
+            success : function(response) {
+              console.log(response);
+            },
+            error : function(error) {
+              console.log(error)
+            }
+          });
+        }
+        var config = {
+          //generated from khalti merchant publickey and secretkey
+          "publicKey": "test_public_key_8e506369cf454460a6bc878908c420a9", 
+          "productIdentity": pid,
+          "productName": "online purchase",
+          "productUrl": "http://online.com",
+          "eventHandler": {
+            onSuccess(payload) {
+              // hit merchant api for initiating verfication
+              console.log(payload);
+              verifyPayment(payload);
+            },
+            onError(error) {
+              console.log(error);
+            },
+            onClose() {
+              console.log('widget is closing');
+            }
+          }
+        };
+        var checkout = new KhaltiCheckout(config);
+        checkout.show({ amount: tAmt*100 });
+        }
+        else if($i == 'esewa'){
+          //- document.getElementById("ShowButton").innerHTML = "Pay with Esewa";
+          var path="https://uat.esewa.com.np/epay/main";
+          var amt = document.getElementById("amt").value;
+          var psc = document.getElementById("psc").value;
+          var pdc = document.getElementById("pdc").value;
+          var txAmt = document.getElementById("txAmt").value;
+          var tAmt = document.getElementById("tAmt").value;
+          var scd = document.getElementById("scd").value;
+          var pid = document.getElementById("pid").value;
+          var su  = "http://localhost:8080/order/buynow/success/";
+          var fu = "http://localhost:8080/homepage/categories/info";
+          var params= {
+              amt: amt,
+              psc: psc,
+              pdc: pdc,
+              txAmt: txAmt,
+              tAmt: tAmt,
+              pid: pid,
+              scd: "EPAYTEST",
+              su: su,
+              fu: fu,
+              }
+          post(path,params);
+          //path route for esewa transaction note that it has https://uat.esewa.com.np/epay/main url
+          function post(path, params) {
+              var form = document.createElement("form");
+              form.setAttribute("method", "POST");
+              form.setAttribute("action", path);
+              for(var key in params) {
+                  var hiddenField = document.createElement("input");
+                  hiddenField.setAttribute("type", "hidden");
+                  hiddenField.setAttribute("name", key);
+                  hiddenField.setAttribute("value", params[key]);
+                  form.appendChild(hiddenField);
+              }
+              document.body.appendChild(form);
+              form.submit();
+               }
+            }
+        else if($i == 'cash'){
+          //- document.getElementById("ShowButton").innerHTML = "Pay with Cash on Delivery";
+        }
+        else if($i == 'bankDeposit'){
+          //- document.getElementById("ShowButton").innerHTML = "Pay with Bank Deposit";
+        }
+        else{
+          //- document.getElementById("ShowButton").innerHTML = "Pay with Money Transfer";
+        }
+    }

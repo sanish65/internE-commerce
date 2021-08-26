@@ -1,0 +1,36 @@
+extends ../layout-admin
+
+block content
+    div(class="content")
+        div(class="container")
+            div(class="page-title")
+                h3 Tracking List
+            div(class="row")
+                div(class="col-md-12 col-lg-12")
+                    div(class="card")
+                        div(class="card-body")
+                            div(class="row")
+                                div(class="col-sm-12 col-md-6")
+                                div(class="col-sm-12 col-md-6")
+                                    div(class="datatable__filter")
+                                        label(for="search") Search: 
+                                            input(type="search" class="form-control form-control-sm")
+
+                            .row
+                              table#tracker.table.table-striped.table-hover
+                                thead.thead-dark
+                                  tr
+                                    th(scope='col') S.N
+                                    th(scope='col') Bill_Id
+                                    th(scope='col') Id
+                                    th(scope='col') Date
+                                    th(scope='col') Status
+                                tbody
+                                  for item in tracks
+                                    tr
+                                      td #{item.sno}
+                                      td #{item.billid}
+                                      td #{item.id}
+                                      td #{item.date}
+                                      td
+                                        a.btn.btn-outline-primary(href="/producttracker/trackinglist/"+item.id) Edit

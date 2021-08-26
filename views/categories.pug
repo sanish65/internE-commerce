@@ -1,0 +1,65 @@
+include partials/headermain
+
+//- main
+main.main-content
+  //- Slider
+  div(class="category")
+    div(class="heading-section")
+        div(class="container")
+            h2(class="text-center p-3") By Category
+
+            nav(class="breadcrumb")
+              a(href="#" class="breadcrumb-item text-dark") Home
+              span(class="breadcrumb-item active") Categories
+  //- Category main
+  div(class="category-main")
+    div(class="container")
+        div(class="row")
+            div(class="col-lg-2 col-sm-12 my-3")
+              div(class="categories")
+                span(class="h5 text-uppercase text-main") Categories
+                ul(class="list-unstyled mt-3")
+                  li 
+                    a(href="/homepage/bestseller" class="text-dark") Besteller
+                  li(class="pt-2") 
+                    a(href="/homepage/featured"  class="text-dark") Featured
+                  
+            
+            div(class="col-lg-10 col-sm-12 my-3")
+              div(class="container")
+                div(class="row")
+                  div(class="col-lg-4 col-sm-6")
+                  div(class="col-lg-4 col-sm-6")
+                  div(class="col-lg-4 col-sm-6")
+                    div(class="sort-by float-right")
+                      
+                
+                if cat.length != 0
+                  div(class="row")
+                    each category in cat
+                      each pic,index in category.thumbnail
+                        if index == 0
+                          div(class="col-md-6 col-12 my-3")
+                            a(href="/homepage/definecategories/"+category.name) 
+                              div(class="card border-0")
+                                img(src=pic['path'], alt="Product 2" class="card-img category-img u-rounded-border zoom")
+                                div(class="card-footer bg-transparent border-0 product-info")
+                                  h5(class="card-title product-name text-dark") #{category.name}
+                                //- div(class="info")
+                                  
+                                //-     a(href="/homepage/definecategories/"+category.name)
+                                //-       i(class="fa fa-eye")
+                else  
+                  h3 No categories to view.
+
+                nav(aria-label="Page navigation example")
+                  ul(class="pagination justify-content-center")
+                    li(class="page-item active")
+                      a(href="#" class="page-link") 1
+                    li(class="page-item")
+                      a(href="#" class="page-link") 2
+                    li(class="page-item")
+                      a(href="#" class="page-link") 3
+
+//- Footer
+include partials/footer

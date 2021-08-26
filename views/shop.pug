@@ -1,0 +1,110 @@
+include partials/headermain
+//- main
+
+script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+
+main.main-content
+  div(class="category mt-5")
+    div(class="heading-section")
+      div(class="container")
+        h2(class="text-center p-3") Our Products
+
+        nav(class="breadcrumb")
+          a(href="#" class="breadcrumb-item text-dark") Home
+          span(class="breadcrumb-item active") Shop
+          button.btn.btn-primary(onclick = 'getsomethingtome()' ) Get Todos
+
+          div(id="getResult1")
+
+  //- Category main
+  div(class="category-main")
+    div(class="container")
+      div(class="row")
+        div(class="col-lg-2 col-sm-12 my-3")
+          div(class="categories")
+            span(class="h5 text-uppercase text-main") Categories
+            ul(class="list-unstyled mt-3")
+              li 
+                a(href="/homepage/bestseller" class="text-dark") Besteller
+              li(class="pt-2") 
+                a(href="/homepage/featured"  class="text-dark") Featured
+
+          div(class="price mt-5")
+            span(class="h5 text-uppercase text-main") Price
+            ul(class="list-unstyled mt-3")
+              div(id="rangevalue") 25000
+              input(type="range" name="pricerange" id="pricerange" min= 0 max= 50000  onchange="checkvalue()")
+
+          div(class="brand mt-5")
+            span(class="h5 text-uppercase text-main") Brand
+            ul(class="list-unstyled mt-3")
+              each brand in brands
+                li(class="pt-2") #{brand.name}
+
+        div(class="col-lg-10 col-sm-12 my-3")
+          div(class="container")
+            div(class="row")
+              div(class="col-lg-4 col-sm-6")
+                p(class="items") Item 1 to 6 of 18 items
+              div(class="col-lg-4 col-sm-6")
+                p Show <input type="number" name="count" id="count" class="count-input ml-2 pl-2" value="6" min="1"> per page
+              div(class="col-lg-4 col-sm-6")
+                div(class="sort-by float-right")
+                  label(for="category") Sort by:
+                  select(name="category" id="category" class="btn-dropdown ml-2")
+                    option(value="allproducts") All Products
+                    option(value="makeup") Makeup
+                    option(value="cosmetics") Cosmetics
+                    option(value="branded") Branded
+
+            div(class="row")
+              each product in info
+                each pic , index in product.photos
+                  if index == 0
+                    div(class="col-lg-4 col-md-6 col-xs-6 my-md-3")
+                      div(class="card border-0")
+                        img(src=pic['path'], alt="Product"+index+1 class="card-img category-img u-rounded-border")
+                        div(class="card-footer bg-transparent border-0 product-info")
+                          h5(class="card-title product-name") #{product.name}
+                            span(class="card-text product-amount") Rs.#{product.price}
+                        div(class="info")
+                          div(class="links")
+                            a(href="/product")
+                              i(class="fa fa-cart-plus")
+                            //- a(href="/product")
+                            //-     i(class="fa fa-star")
+                            a(href="/product")
+                              i(class="fa fa-eye")
+
+            nav(aria-label="Page navigation example")
+              ul(class="pagination justify-content-center")
+                li(class="page-item active")
+                  a(href="#" class="page-link") 1
+                li(class="page-item")
+                  a(href="#" class="page-link") 2
+                li(class="page-item")
+                  a(href="#" class="page-link") 3
+
+//- Footer
+include partials/footer
+
+script.
+  function getsomethingtome() {
+    console.log("inside the layout function");
+    var resultElement = document.getElementById('getResult1');
+    resultElement.innerHTML = '';
+
+    axios.get('/homepage/givehimsomething/nice')
+      .then(function (response) {
+        resultElement.innerHTML = (response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });   
+    }
+
+
+  function checkvalue() {
+    var value = document.getElementById('pricerange').value;
+    rangevalue.innerHTML = value;
+  }

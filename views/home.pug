@@ -1,0 +1,482 @@
+include partials/headermain
+
+block content
+  if cache.banners
+    div(class="home-slider")
+      div(id="carousel" class="carousel slide" data-ride="false")
+        ol(class="carousel-indicators")
+          each pic, index in cache.banners
+            if index == 1
+              li(data-target="#carousel" data-slide-to= index class="active")
+            else  
+              li(data-target="#carousel" data-slide-to=index )
+
+        div(class="carousel-inner")
+          each pic , index in cache.banners
+            if index == 1
+              div(class="carousel-item active")
+                img(src=pic['path'] alt="Product"+index class="d-block w-100 img-fluid")
+                div(class="carousel-caption text-left position-md-absolute top-30")
+                  h1(class="heading-main") #{cache.name}
+                  h2(class="heading-sub") #{cache.subname}
+                  button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" onclick="window.location.href='/homepage/viewmore';" ) Shop Now
+            else
+              div(class="carousel-item")
+                img(src=pic['path'] alt="Product"+index class="d-block w-100 img-fluid")
+                div(class="carousel-caption text-right position-md-absolute top-30")
+                  h1(class="heading-main") #{cache.name}
+                  h2(class="heading-sub") #{cache.subname}
+                  button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" onclick="window.location.href='/homepage/viewmore';" ) Shop Now
+          //- Left and right controls
+          a(class="carousel-control-prev" href="#carousel" data-slide="prev")
+            span(class="carousel-control-prev-icon")
+
+          a(class="carousel-control-next" href="#carousel" data-slide="next")
+            span(class="carousel-control-next-icon")
+  else 
+    div(class="home-slider")
+      div(id="carousel" class="carousel slide" data-ride="false")
+        ol(class="carousel-indicators")
+          li(data-target="#carousel" data-slide-to="0" )
+          li(data-target="#carousel" data-slide-to="1" class="active")
+          li(data-target="#carousel" data-slide-to="2")
+
+        div(class="carousel-inner")
+          div(class="carousel-item")
+            img(src="bg-image-1.jpg" alt="First slide" class="d-block w-100 img-fluid")
+            div(class="carousel-caption text-right position-md-absolute top-30")
+              h1(class="heading-main") On Demand
+              h2(class="heading-sub") Authentic Cosmetics products from us
+              button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" onclick="window.location.href='/homepage/viewmore';" ) Shop Now
+
+          div(class="carousel-item active")
+            img(src="bg-image-2.jpg" alt="Second slide" class="d-block w-100 img-fluid")
+            div(class="carousel-caption text-left position-md-absolute top-30")
+              h1(class="heading-main") On Demand
+              h2(class="heading-sub") Authentic Cosmetics products from us
+              button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" onclick="window.location.href='/homepage/viewmore';" ) Shop Now
+
+          div(class="carousel-item")
+            img(src="bg-image-3.jpg" alt="Third slide" class="d-block w-100 img-fluid")
+            div(class="carousel-caption text-left position-md-absolute top-30")
+              h1(class="heading-main") On Demand
+              h2(class="heading-sub") Authentic Cosmetics products from us
+              button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" onclick="window.location.href='/homepage/viewmore';" ) Shop Now
+          //- Left and right controls
+          a(class="carousel-control-prev" href="#carousel" data-slide="prev")
+            span(class="carousel-control-prev-icon")
+
+          a(class="carousel-control-next" href="#carousel" data-slide="next")
+            span(class="carousel-control-next-icon")
+  //- Best Seller
+  section(class="best-seller pt-5")
+    div(class="container")
+      //- title
+      h2(class="heading-primary") Best Sellers
+      div(class="row my-3")
+        div(class="col mx-auto text-left")
+          h5.text-danger set upto 16% flat discount till March
+        div(class="col mx-auto text-right")
+          - var id = "bestseller"
+          a(href="/homepage/"+id class="text-capitalize btn-more") view more &rarr;
+      div(class="row")
+        - var count = 0
+        each product,homeindex in homedata
+          if product.featuretype == "most-selled"
+            -count++
+            if count < 5
+              each pic,index in product.photos
+                if index == 0
+                  div(class="col-xl-3 col-lg-4 col-md-6 col-xs-6 my-md-3")
+                    div(class="card card-zoom border-0")
+                      img(src=pic['path'] alt="Product"+index class="card-img product-img u-rounded-border zoom")
+                      div(class="card-img-overlay rating")
+                        - var rated_stars = 0
+                        if product.review.length
+                          each review , index in product.review
+                            - rated_stars += review.rate
+                          -rated_stars /= (product.review.length)
+                        else
+                          - rated_stars = 0
+
+                        if Math.ceil(rated_stars) == 5
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                        if Math.ceil(rated_stars) == 4
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 3
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 2
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 1
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 0
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+
+                      div(class="card-footer bg-transparent border-0 product-info")
+                        h5(class="card-title product-name") #{product.name}
+                        span(class="card-text product-amount") Rs.#{product.price}
+                      div(class="info")
+                        div(class="info")
+                        div(class="links")
+                          form(action="/order/addtocart/"+product._id, method='POST' id=product._id class='d-inline')
+                            input(type='hidden' name='id',value=product.id)
+                            input(type='hidden' name='sku',value=product.sku)
+                            input(type='hidden' name="productname", value=product.name)
+                            input(type='hidden' name="description", value=product.description)
+                            input(type='hidden' name="photos", value=product.photos[0].path)
+                            input(type='hidden' name="caption", value=product.caption)
+                            input(type='hidden' name="productprice", value=product.price)
+                            input(type='hidden' name="quantity", value=1)
+                            a(href="#")
+                              i(class="fa fa-cart-plus zoom-span" onclick="document.getElementById('" +product._id + "').submit(); return false;" )
+                          //- a(href="/product")
+                          //-   i(class="fa fa-star")
+                          a(href="/homepage/product/"+product._id class='border-left')
+                            i(class="fa fa-eye zoom-span")
+
+
+
+  //- Featured Products
+  section(class="featured-product pt-3")
+    div(class="container")
+      //- title
+      h2(class="heading-primary") Featured Product
+      div(class="row my-3")
+        div(class="col mx-auto text-right")
+          - var id = "featured"
+          a(href="/homepage/"+id class="text-capitalize btn-more") view more &rarr;
+      div(class="row")
+        - var count = 0
+        each product in homedata
+          if product.featuretype == "feature"
+            -count++
+            if count < 4
+              each pic,index in product.photos
+                if index ==0
+                  div(class="col-lg-4 col-md-6 col-xs-6 my-md-3")
+                    div(class="card card-zoom border-0")
+                      img(src=pic['path'] alt="Product"+index+1 class="card-img product-img u-rounded-border zoom")
+                      div(class="card-img-overlay rating")
+                        - var rated_stars = 0
+                        if product.review.length
+                          each review , index in product.review
+                            - rated_stars += review.rate
+                          -rated_stars /= (product.review.length)
+                        else
+                          - rated_stars = 0
+
+                        if Math.ceil(rated_stars) == 5
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                        if Math.ceil(rated_stars) == 4
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 3
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 2
+                          span.fa.fa-star.checked
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 1
+                          span.fa.fa-star.checked
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                        if Math.ceil(rated_stars) == 0
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                          span.fa.fa-star
+                      div(class="card-footer bg-transparent border-0 product-info")
+                        h5(class="card-title product-name") #{product.name}
+                        span(class="card-text product-amount") Rs.#{product.price}
+                      div(class="info")
+                        div(class="links")
+                          form(action="/order/addtocart/"+product._id, method='POST' id=product._id class='d-inline')
+                            input(type='hidden' name='id',value=product.id)
+                            input(type='hidden' name='sku',value=product.sku)
+                            input(type='hidden' name="productname", value=product.name)
+                            input(type='hidden' name="description", value=product.description)
+                            input(type='hidden' name="photos", value=product.photos[0].path)
+                            input(type='hidden' name="caption", value=product.caption)
+                            input(type='hidden' name="productprice", value=product.price)
+                            input(type='hidden' name="quantity", value=1)
+                            a(href="#")
+                              i(class="fa fa-cart-plus zoom-span" onclick="document.getElementById('"+product._id+"').submit(); return false;" )
+                          //- a(href="/product")
+                          //-   i(class="fa fa-star")
+                          a(href="/homepage/product/"+product._id class='border-left')
+                            i(class="fa fa-eye zoom-span")
+      //- Subscription
+
+
+
+      //- section(class="subscription pt-3")
+      //-   div(class="container")
+      //-     h2(class="heading-primary pb-3") Our Featured Brands
+      //-     div(class="row")
+      //-       each brand in branddata
+      //-         each pic,index in brand.thumbnail
+      //-           div(class="col-lg-4 col-sm-6 my-3")
+      //-             div(class="card border-0")
+      //-               img(src=pic['path'], alt="Product 1" class="card-img product-img u-rounded-border border")
+
+
+
+      //- End of Subscription
+
+  //- Social Media
+  section(class="social-media")
+    div(class="container")
+      h3(class="heading-secondary")
+        span(class="heading-secondary-main") To check out more details at right time
+        span(class="heading-secondary-sub") Follow us at our social media
+      h2(class="heading-primary pb-3")
+        div
+          i(class="fa fa-facebook-square fa-2x mr-3")
+          i(class="fa fa-instagram fa-2x")
+
+      div(class="row")
+        div(class="col-md-6 col-sm-12 my-3")
+          div(class="card border-0")
+            img(src="follow-1.png" alt="Offer 1" loading="lazy" class="card-img")
+        div(class="col-md-6 col-sm-12 my-3")
+          div(class="card border-0")
+            img(src="follow-2.png" alt="Offer 2" loading="lazy" class="card-img")
+
+  //- Our Products
+  section(class="our-product pt-5")
+    div(class="container")
+      h2(class="heading-primary pb-3") Our Products
+      div(class="row")
+        - var count = 0
+        each product in homedata
+          -count++
+          if count < 5
+            each pic,index in product.photos
+              if index == 0
+                div(class="col-lg-4 col-md-6 col-xs-6 my-md-3")
+                  div(class="card card-zoom border-0")
+                    img(src=pic['path'], alt="product"+index+1 class="card-img product-img u-rounded-border zoom")
+                    div(class="card-footer bg-transparent border-0 product-info")
+                      h5(class="card-title product-name") #{product.name}
+                      span(class="card-text product-amount") Rs.#{product.price}
+
+                    div(class="info")
+                      div(class="links")
+                        form(action="/order/addtocart/"+product._id, method='POST' id='featured' class='d-inline')
+                          input(type='hidden' name='id',value=product.id)
+                          input(type='hidden' name='sku',value=product.sku)
+                          input(type='hidden' name="productname", value=product.name)
+                          input(type='hidden' name="description", value=product.description)
+                          input(type='hidden' name="photos", value=product.photos[0].path)
+                          input(type='hidden' name="caption", value=product.caption)
+                          input(type='hidden' name="productprice", value=product.price)
+                          input(type='hidden' name="quantity", value=1)
+                          a(href="#")
+                            i(class="fa fa-cart-plus zoom-span" onclick="document.getElementById('featured').submit(); return false;" )
+                        //- a(href="/product")
+                        //-   i(class="fa fa-star")
+                        a(href="/homepage/product/"+product._id class='border-left')
+                          i(class="fa fa-eye zoom-span")
+
+
+      div(class="u-center-text pb-5")
+        - var id = "viewmore"
+        a(href="/homepage/"+id class="btn btn-view-more") View More
+
+
+      div(class="heading-secondary")
+        span(class="heading-secondary-main") Didn't find what you are looking for?
+        span(class="heading-secondary-sub") We cover pre-order from all these websites
+
+      div(class="row")
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-1.png" alt="Site 1" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Sephora
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-2.png" alt="Site 2" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Ultra Beauty
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-3.png" alt="Site 3" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Amazon
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-5.png" alt="Site 1" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Benefit
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-6.png" alt="Site 1" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Mac
+        div(class="col-lg-2 col-sm-4 col-6 my-3")
+          div(class="card border-0")
+            img(src="site-7.png" alt="Site 1" class="card-img site-img")
+            div(class="card-footer bg-transparent border-0 site-info")
+              h6(class="card-title site-name") Revlon
+
+      div(class="card border-0")
+        form(action="/order/sendlink" method = "post" class="unlisted-site mt-4")
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="link") Drop a link
+              div(class="col-md-6 col-sm-8 col-12")
+                //- span#fooBar &nbsp;
+                input(type="text" class="form-control" name="link" id="link" placeholder="e.g https://www.google.com/url?sa=i&www.byrdie.com%...")
+                //- a(href="#" class="btn btn-main py-2 px-3 mt-3" onclick="add('text')") Add more link
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="name") Name
+              div(class="col-md-6 col-sm-6 col-12 text-lg-right")
+                input(type="text" class="form-control" name="name" id="name" placeholder="Sam")
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="name") Email
+              div(class="col-md-6 col-sm-6 col-12 text-lg-right")
+                input(type="email" class="form-control" name="email" id="email" placeholder="Sam@cosmopoliticial.com")
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="name") Phone
+              div(class="col-md-6 col-sm-6 col-12 text-lg-right")
+                input(type="phone" class="form-control" name="phone" id="phone" placeholder="9800980000")
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="insta-name") Insta or Facebook
+              div(class="col-md-6 col-sm-6 col-12 text-lg-right")
+                input(type="text" class="form-control" name="insta" id="insta-name" placeholder="Sams_Pro")
+          div(class="form-group")
+            div(class="row")
+              div(class="col-sm-3 col-12 text-lg-right")
+                label(for="fb-name") Address
+              div(class="col-md-6 col-sm-6 col-12 text-lg-right")
+                input(type="text" class="form-control" name="address" id="address" placeholder="Bagbajar")
+
+          div(class="row")
+            div(class="col-12 col-sm-3")
+            div(class="col-12 col-sm-9")
+              button(class="btn btn-main py-2 px-3 mt-2" type="submit") Submit
+
+        h3(class="heading-secondary pt-5")
+          span(class="heading-secondary-sub") Not ready now, save for later
+            button(class="btn btn-main py-2 mx-3") Login/Signup
+      //- End of Our Products
+
+  //- Shop By Brands
+  section(class="brand py-5")
+    div(class="container")
+      h2(class="heading-primary") Shop By Brands
+
+      //- div(class="row btn-view position-relative pb-5")
+      //-   a(href="/homepage/brand" class="btn btn-text") View More &rarr;
+      div(class="row my-3")
+        div(class="col mx-auto text-right")
+          - var id = "bestseller"
+          a(href="/homepage/" class="text-capitalize btn-more") view more &rarr;
+      div(class="row")
+        - var count = 6
+        each brands,index in branddata
+          if index < 6
+            each pic ,index in brands.thumbnail
+              if index == 0
+                div(class="col-lg-4 col-6 my-3")
+                  a(href="/homepage/brandinfo/"+brands._id)
+                    div(class="card border-0")
+                      img(src=pic['path'] alt="Brand"+index+1 class="card-img brand-img zoom")
+
+                    div(class="info")
+                      div(class="links")
+                      //- a(href="/product")
+                      //-   i(class="fa fa-cart-plus") hello
+                      //- a(href="/product")
+                      //-   i(class="fa fa-star")
+                      //- - var id = " brand"
+                      //- a(href="/homepage/brandinfo/"+brands._id)
+                      //-   i(class="fa fa-eye zoom-span")
+
+            //- End of shop by brands
+
+  //- Services
+  section(class="service")
+    div(class="container")
+      div(class="row")
+        div(class="col-10 mx-auto col-md-6 col-lg-4 my-3 text-white")
+          div(class="service-item")
+            h2(class="text-uppercase") Secure Payment
+            p(class="text-capitalize") cash on delivery, online Payment & bank transfers
+
+        div(class="col-10 mx-auto col-md-6 col-lg-4 my-3 text-white")
+          div(class="service-item")
+            h2(class="text-uppercase") 24/7 Support
+            p(class="text-capitalize") we will assist you with your inquirues<
+
+        div(class="col-10 mx-auto col-md-6 col-lg-4 my-3 text-white")
+          div(class="service-item")
+            h2(class="text-uppercase") Free Shipping
+            p(class="text-capitalize") inside Kathmandu Valley
+  
+
+
+  //- Our Products
+
+include partials/footer
+
+
+script.
+  function add(type) {
+    var element = document.createElement("input");
+    element.setAttribute("type", type);
+    element.setAttribute("value", type);
+    element.setAttribute("name", type);
+    var foo = document.getElementById("fooBar");
+    foo.appendChild(element);
+  }

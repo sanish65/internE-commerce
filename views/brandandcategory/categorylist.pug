@@ -1,0 +1,32 @@
+extends ../layout-admin
+
+block content
+  div(class="content")
+    div(class="container")
+      div(class="page-title")
+        h3 Category
+      div(class="row")
+        div(class="col-md-12 col-lg-12")
+          div(class="card")
+            div(class="card-header h5") Category List
+            div(class="card-body")
+              div(class="row")
+                div(class="col-sm-12 col-md-6")
+
+              div(class="table-responsive")
+                table(class="table table-striped" id="myTable")
+                  thead(class="thead-dark")
+                    tr
+                      th(scope='col') Count
+                      th(scope='col') Name
+                      th(scope='col') Slug
+                      th Action
+
+                  tbody
+                    for item in categories
+                      tr
+                        th(scope='row') #{item.count}
+                        td #{item.name}
+                        td #{item.slug}
+                        td
+                          a.btn.btn-outline-primary(href="/brandandcategory/categorylist/"+item.id) Edit

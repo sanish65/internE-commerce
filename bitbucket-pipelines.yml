@@ -1,0 +1,19 @@
+image: node:14-slim
+
+pipelines:
+  default:
+    - parallel:
+      - step:
+          name: Build and Test
+          caches:
+            - node
+          script:
+            - yarn install
+            - yarn test
+          services:
+            - mongo
+
+definitions:
+  services:
+    mongo:
+      image: mongo

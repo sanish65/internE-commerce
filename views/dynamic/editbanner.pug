@@ -1,0 +1,72 @@
+extends ../layout-admin
+
+block content
+  div(class="container")
+      div(class="row")
+          div(class="col-lg-12")
+              div(class="card")
+                  div(class="card-header h5") Edit Banners 
+                  div(class="card-body")
+                    form(method = 'POST' action='/customization/addBanner/'+banner._id enctype='multipart/form-data')
+                      input(type='hidden', name='_csrf', value=_csrf)
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='name') Banner Topic
+                        .col-md-4
+                          input.form-control(type='text', name='name', id='name', autocomplete='name', autofocus=true, placeholder="Name of the Banner", value=banner.name)
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='subname') Sub-heading
+                        .col-md-4
+                          input.form-control(type='text', name='subname', id='subname', autocomplete='subname', autofocus=true, placeholder="Sub-heading here", value=banner.subname)
+
+                      .form-group.row
+                        .col-md-2
+                          label(class='col-form-label font-weight-bold', for='pimage') Banners
+                        .col-md-4
+                          input#input-multi-files.form-control-file.border(type='file', name='multi-files', multiple='' )
+
+                          input.form-control(type="text",name="caption", placeholder="caption e.g xinney")
+
+                      .form-group.row
+                        .col-sm-12
+                          label(class='col-form-label font-weight-bold', id="displayImage" ,for='pimage') 
+                            .preview-images
+                            
+                      .form-group.row 
+                          div(class="home-slider")
+                            div(id="carousel" class="carousel slide" data-ride="false")
+                              ol(class="carousel-indicators")
+                                each pic, index in banner.photos
+                                  if index == 1
+                                    li(data-target="#carousel" data-slide-to= index class="active")
+                                  else  
+                                    li(data-target="#carousel" data-slide-to=index )
+
+                              div(class="carousel-inner")
+                                each pic , index in banner.photos
+                                  if index == 1
+                                    div(class="carousel-item active")
+                                      img(src=pic['path'] alt="Product"+index class="d-block w-100 img-fluid")
+                                      div(class="carousel-caption text-left position-md-absolute top-30")
+                                        h1(class="heading-main") #{banner.name}
+                                        h2(class="heading-sub") #{banner.subname}
+                                        button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" disabled  ) Shop Now
+                                  else
+                                    div(class="carousel-item")
+                                      img(src=pic['path'] alt="Product"+index class="d-block w-100 img-fluid")
+                                      div(class="carousel-caption text-right position-md-absolute top-30")
+                                        h1(class="heading-main") #{banner.name}
+                                        h2(class="heading-sub") #{banner.subname}
+                                        button(class="btn btn-light btn-outline-dark px-sm-4 mt-md-3" disabled ) Shop Now
+
+                                a(class="carousel-control-prev" href="#carousel" data-slide="prev")
+                                  span(class="carousel-control-prev-icon")
+
+                                a(class="carousel-control-next" href="#carousel" data-slide="next")
+                                  span(class="carousel-control-next-icon")
+                                      
+                      .form-group
+                        .col-md-10.offset-md-2
+                          button.btn.btn-primary(type='submit')
+                            | Edit banner

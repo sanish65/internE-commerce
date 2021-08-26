@@ -1,0 +1,47 @@
+include partials/headermain
+
+//- main
+main.main-content
+  div(class="category mt-5")
+    //- Category main
+    div(class="category-main")
+      div(class="heading-section")
+        div(class="container")
+          h2(class="text-center p-3") By Brand
+          nav(class="breadcrumb")
+            a(href="#" class="breadcrumb-item text-dark") Home
+            span(class="breadcrumb-item active") Brand
+
+  div(class="container")
+    div(class="row")
+      div(class="col-lg-2 col-sm-12 my-3")
+        div(class="categories")
+          span(class="h5 text-uppercase text-main") Categories
+          ul(class="list-unstyled mt-3")
+            li 
+              a(href="/homepage/bestseller" class="text-dark") Besteller
+            li(class="pt-2") 
+              a(href="/homepage/featured"  class="text-dark") Featured
+
+      div(class="col-lg-10 col-sm-12 my-3")
+        div(class="container")
+          if brand.length != 0
+            div(class="row")
+              each brands in brand
+                each pic,index in brands.thumbnail
+                  if index == 0
+                    div(class="col-lg-4 col-sm-6 col-12 my-3")
+                      a(href="/homepage/branded/"+brands._id)
+                        div(class="card border-0")
+                          img(src=pic['path'] alt="Brand 1" class="card-img u-rounded-border zoom" )
+                          div(class="info")
+                            div(class="links")
+                              //- a(href="/homepage/branded/"+brands._id)
+                              //-   i(class="fa fa-eye")
+          else
+            h3 No brands to view currently.
+
+
+
+//- Footer
+include partials/footer

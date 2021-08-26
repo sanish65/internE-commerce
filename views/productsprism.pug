@@ -1,0 +1,48 @@
+extends layout-admin
+
+block content
+    for item in items
+        div(class="card")
+        if item.totalquantity > 0
+          .col-md-4
+              img(class="card-img-top" src=item.photos, alt=item.caption)
+              h6(align='center') Product Code: #{item.sku}
+              div(class="card-body")
+                form(action='/order/addtocart', method='POST')
+                  input(type='hidden' , name='_csrf', value=_csrf)
+
+                  input(type='hidden',name='id',value=item.id)
+                  input(type='hidden',name='sku',value=item.sku)
+                  input(type='hidden',name="productname", value=item.name)
+                  input(type='hidden',name="description", value=item.description)
+                  input(type='hidden',name="photos", value=item.photos)
+                  input(type='hidden',name="caption", value=item.caption)
+                  input(type='hidden',name="productprice", value=item.price)
+
+                  h5 #{item.name}
+                  h4(class="card-text" style='color:red;font-weight:bold') Rs. #{item.price}
+                  h6 Quantity:
+                    input(class="quantity",min="1",max=item.totalquantity ,name="quantity" ,id='quantity', value="1", type='number', style='width:25%')
+                  button(class="btn btn-md btn-block"  style='background-color:#ff0090;color:white;' type='submit') Add to cart
+        else
+          img(class="card-img-top" src=item.photos, alt=item.caption)
+          .col-md-4
+              h6(align='center') Product Code: #{item.sku}
+              div(class="card-body")
+                    form(action='/order/booknow', method='POST')
+                      input(type='hidden' , name='_csrf', value=_csrf)
+
+                      input(type='hidden',name='id',value=item.id)
+                      input(type='hidden',name='sku',value=item.sku)
+                      input(type='hidden',name="productname", value=item.name)
+                      input(type='hidden',name="description", value=item.description)
+                      input(type='hidden',name="photos", value=item.photos)
+                      input(type='hidden',name="caption", value=item.caption)
+                      input(type='hidden',name="productprice", value=item.price)
+
+                      h4(align='center' style='color:red;') Out of Stock
+                      h5 #{item.name}
+                      h4(class="card-text" style='color:red;font-weight:bold') Rs. #{item.price}
+                      h6 Quantity:
+                        input(class="quantity",min="1" ,name="quantity" ,id='quantity', value="1", type='number', style='width:25%')
+                      button(class="btn btn-md btn-block"  style='background-color:#ff0090;color:white;' type='submit') Book Now

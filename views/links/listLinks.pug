@@ -1,0 +1,54 @@
+extends ../layout-admin
+
+block content
+  div(class="content")
+    div(class="container")
+      div(class="page-title")
+        h3.page-header List Links
+      div(class="row")
+        div(class="col-md-12 col-lg-12")
+          div(class="card")
+            div(class="card-header h5") Link List
+            div(class="card-body")
+
+              .row
+                table.table.table-striped.table-hover.table-hover
+                  thead.thead-dark
+                    tr
+                    th(scope='col') Name
+                    th(scope='col') Address
+                    th(scope='col') Insta/Fb
+                    th(scope='col') Phone
+                    th(scope='col') email
+                    th(scope='col') Link
+                    th(scope='col') Respond
+
+                  tbody
+                    each item , index in links
+                      tr
+                        td #{item.name}
+                        td #{item.address}
+                        td #{item.insta}
+                        td #{item.phone}
+                        td #{item.email}
+                        td
+
+  script.
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value;
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }

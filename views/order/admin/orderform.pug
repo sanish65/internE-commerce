@@ -1,0 +1,72 @@
+extends ../../layout-admin
+
+block content
+    div(class="container")
+        div(class="page-title")
+            h3 Order
+        div(class="row")
+            div(class="col-lg-12")
+                div(class="card")
+                    div(class="card-header h5") Order Form
+                    div(class="card-body")
+                        form(method = "POST")
+                            input(type='hidden', name='_csrf', value=_csrf)
+                            .form-group.row
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='fname') First Name
+                                    input.form-control(type='text', name='fname', id='fname', autocomplete='fname', autofocus=true, placeholder="First Name", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='lname') Last Name
+                                    input.form-control(type='text', name='lname', id='lname', autocomplete='lname', autofocus=true, placeholder="Last Name", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='phone') Phone
+                                    input.form-control(type='text', name='phone', id='phone', autocomplete='phone', placeholder="Phone", required)
+                            .form-group.row 
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='email') Email
+                                    input.form-control(type='text', name='email', id='email', autocomplete='email', placeholder="Email", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='instaname') Instagram Name
+                                    input.form-control(type='text', name='instaname', id='instaname', autocomplete='instaname', placeholder="Instagram Name", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='dob') Date of Birth  
+                                    input.form-control(type='date', name='dob', id='dob', autocomplete='dob', placeholder="Date of Birth", required)
+                            .form-group.row
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='location') Location
+                                    input.form-control(type='text', name='location', id='location', autocomplete='location', autofocus=true, placeholder="Location", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='nearby') Nearby
+                                    input.form-control(type='text', name='nearby', id='nearby', autocomplete='nearby', placeholder="Popular Place", required)
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='city') City
+                                    input.form-control(type='text', name='city', id='city', autocomplete='city', placeholder="Your City", required)
+                            .form-group.row(style='border-style:outset;border-color:#ffc0cb')
+                                .col-md-4(style='margin-left:15%')
+                                    label(class='col-form-label font-weight-bold', for='productname') Product Name
+                                    each i in [0, 1, 2, 3, 4]
+                                        input.form-control(type='text', name='productname', id='productname', autocomplete='productname', placeholder="Product name "+(i+1))
+                                        br
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold', for='quantity') Quantity
+                                    each i in [0, 1, 2, 3, 4]
+                                        input.form-control(type="text",name="quantity" ,id='quantity',placeholder='Quantity for product '+(i+1))
+                                        br      
+                            .form-group.row
+                                .col-md-4
+                                    label(class='col-form-label font-weight-bold' , for='paymentmethod') Payment Method
+                                    <select class="form-control" data-style="btn-info" name="paymentmethod">
+                                        <optgroup label="Select Payment Method">
+                                            each payment_method in dropDownPayment
+                                                each val,key in payment_method
+                                                    <option name=#{key} value=#{key} id="paymentmethod">#{val}</option>
+                                        </optgroup>
+                                    </select> 
+                            .form-group.row
+                                .col-md-12
+                                    label(class='col-form-label font-weight-bold', for='notes') Notes
+                                    textarea.form-control(name='notes', id='notes', autocomplete='notes')      
+                            .form-group
+                                .col-md-10.p-1
+                                    button.btn.btn-primary(type='submit')
+                                        |Submit Order

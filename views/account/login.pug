@@ -1,0 +1,25 @@
+extends ./layout-auth
+block variables
+    - var formTitle = 'Login to your account'
+
+block content
+    form(method="POST")
+        input(type='hidden' name='_csrf', value=_csrf)
+        div(class="form-group text-left")
+            label(for="email") Email address
+            input(type='email' class='form-control' name='email' id='email' placeholder='Enter email address', autofocus, autocomplete='email', required)
+        div(class="form-group text-left")
+            label(for="password") Password
+            input(type='password' class='form-control' name='password' id='password' placeholder='Password' autocomplete='current-password', required)
+
+        div(class="form-group text-left")
+            div(class="custom-control custom-checkbox")
+                input(type="checkbox" name="confirm" class="custom-control-input" id="confirm-me")
+                label(for="confirm-me" class="custom-control-label") Remember me on this device
+
+        button(class="btn btn-primary mb-4") Login
+
+    p(class="mb-2 text-muted") Forgot password?
+        a(href="/forgot")  Reset
+    p(class="mb-0 text-muted") Don't have an account yet?
+        a(href="./signup/customer")  Sign Up

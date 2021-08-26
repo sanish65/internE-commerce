@@ -1,0 +1,35 @@
+extends ../layout-admin
+
+block content
+  div(class="content")
+    div(class="container")
+      div(class="page-title")
+        h3 User
+      div(class="row")
+        div(class="col-md-12 col-lg-12")
+          div(class="card")
+            div(class="card-header h5") User List
+            div(class="card-body")
+              div(class="row")
+                div(class="col-sm-12 col-md-6")
+
+
+              div(class="table-responsive")
+                table(class="table table-striped" id="myTable")
+                  thead(class="thead-dark")
+                    tr
+                      th(scope='col') Username
+                      th(scope='col') Email
+                      th(scope='col') Usertype
+                      th(scope='col') Action
+
+                  tbody
+                    for item in items
+                      tr
+                        td #{item.name}
+                        td #{item.email}
+                        td(style="text-transform: capitalize") #{item.usertype}
+                        td
+                          a.btn.btn-outline-primary(href="/edituser/"+item.id) Edit
+                          span
+                          a.btn.btn-outline-danger(href="/deleteuser/"+item.id, onclick="return confirm('Are you sure you want to delete your account?');") Delete

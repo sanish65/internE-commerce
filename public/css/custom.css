@@ -1,0 +1,45 @@
+.imglogo {
+  height: 100%;
+  width: 140px;
+  margin: -30px;
+}
+
+.navmargins {
+  margin: 9px 30px 0px 26px;
+}
+
+.srch {
+  display: block;
+}
+
+.body-color {
+  padding-top: 0px;
+}
+
+.allgreen {
+  background-color: #228b22 !important;
+  color: #ffffff;
+}
+.allred {
+  background-color: #ff0000 !important;
+  color: #ffffff;
+}
+
+.dark-product {
+  background-color: #228b22 !important;
+  padding: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.light-product {
+  background-color: #ff0000 !important;
+  padding: 20px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.ui-autocomplete .ui-menu-item {
+  font-style: italic;
+  color: rgb(3, 3, 39);
+}

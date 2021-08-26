@@ -1,0 +1,60 @@
+extends ../layout-admin
+
+
+block content
+    div(class="content")
+        div(class="container")
+            div(class="page-title")
+                h3 Display
+            div(class="row")
+                div(class="col-md-12 col-lg-12")
+                    div(class="card")
+                        div(class="card-header h5") Display List
+                        div(class="card-body")
+                            div(class="row")
+                                div(class="col-sm-12 col-md-6")
+                                
+
+                            div(class="table-responsive")
+                                table(class="table table-striped" id="myTable")
+                                    thead(class="thead-dark")
+                                        tr
+                                          th(scope='col') SNo
+                                          th(scope='col') Title
+                                          th(scope='col') Sub-title
+                                          th Action
+                                          th Change
+                                        
+                                    tbody
+                                        for item in displayset
+                                            tr(class='all' + item.colorcode)
+                                                td #{item.sn}
+                                                td #{item.name}
+                                                td #{item.subname}
+                                                td
+                                                  a.btn.btn-outline-primary(href="/customization/editbanner/"+item._id) Edit
+                                                td 
+                                                    if item.match == "matched"
+                                                        a.btn.btn-outline-secondary.disabled(href="/") Banner in use
+                                                    else 
+                                                        a.btn.btn-outline-primary(href="/customization/usebanner/"+item._id) Use this
+
+                            div(class="table-responsive")
+                                table(class="table table-striped" id="myTable")
+                                    thead(class="thead-dark")
+                                        tr
+                                          th(scope='col') SNo
+                                          th(scope='col') Logos
+                                          th Change
+                                        
+                                    tbody
+                                        for item in logoset
+                                            tr(class='all' + item.colorcode)
+                                                td #{item.sn}
+                                                td 
+                                                    img(src=item.photos[0].path,alt="logo" height=50 width=100)
+                                                td
+                                                    if item.match == "matched"
+                                                        a.btn.btn-outline-secondary.disabled(href="/") Logo in use
+                                                    else
+                                                        a.btn.btn-outline-primary(href="/customization/uselogo/"+item._id) Use this
